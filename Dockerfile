@@ -1,14 +1,14 @@
-# GCC image use karo build ke liye
+# GCC image (C compiler) use karo
 FROM gcc:latest
 
-# App directory banao
+# Container ke andar ek folder banao
 WORKDIR /usr/src/app
 
-# Saara code copy karo
+# Aapka saara code (including vip_pos.c) yahan copy hoga
 COPY . .
 
-# C code ko compile karo
-RUN gcc -o burhan-panda-app main.c
+# Compile karo (vip_pos.c ko use karke executable banao)
+RUN gcc -o burhan-panda-app vip_pos.c
 
-# App chalao
+# Jab container chale, to ye app start ho jaye
 CMD ["./burhan-panda-app"]
