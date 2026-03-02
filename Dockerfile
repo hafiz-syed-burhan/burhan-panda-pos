@@ -11,4 +11,4 @@ COPY . .
 RUN make
 
 # Jab container chale, to ye app start ho jaye
-CMD ["./burhan-panda-app"]
+CMD ["./vip_pos"]
