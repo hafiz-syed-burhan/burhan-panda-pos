@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Compile karo (vip_pos.c ko use karke executable banao)
-RUN gcc -o burhan-panda-app vip_pos.c
+RUN make
 
 # Jab container chale, to ye app start ho jaye
 CMD ["./burhan-panda-app"]
