@@ -1,7 +1,7 @@
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Sabse zaroori: libsqlite3-dev ko add kiya hai compilation ke liye
+# Emojis ke liye fonts-noto-color-emoji ko add kiya gaya hai
 RUN apt-get update && apt-get install -y \
     build-essential \
     libgtk-3-dev \
@@ -11,12 +11,12 @@ RUN apt-get update && apt-get install -y \
     sqlite3 \
     fonts-liberation \
     fonts-dejavu-core \
+    fonts-noto-color-emoji \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
 COPY . .
 
-# Ab 'make' error nahi dega kyunke sqlite3 library mil jayegi
 RUN make
 
 CMD ["./vip_pos"]
