@@ -177,7 +177,10 @@ void build_main_ui() {
     gtk_style_context_add_class(gtk_widget_get_style_context(cart), "cart-panel");
     gtk_widget_set_size_request(cart, 350, -1);
     
-    gtk_box_pack_start(GTK_BOX(cart), gtk_label_new("<b>Your Basket</b>"), FALSE, FALSE, 0);
+    //gtk_box_pack_start(GTK_BOX(cart), gtk_label_new("<b>Your Basket</b>"), FALSE, FALSE, 0);
+    GtkWidget *basket_label = gtk_label_new(NULL); // 1. Khali label banayein
+    gtk_label_set_markup(GTK_LABEL(basket_label), "<b>Your Basket</b>"); // 2. Markup enable karein
+    gtk_box_pack_start(GTK_BOX(cart), basket_label, FALSE, FALSE, 0); //
     
     cart_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
     cart_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(cart_store));
