@@ -21,7 +21,7 @@ const char *ULTIMATE_CSS =
     ".product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: #D70F64; }"
     ".price-tag { color: #D70F64; font-size: 16px; font-weight: 800; }"
     ".cart-panel { background: white; padding: 30px; border-left: 1px solid #eee; box-shadow: -10px 0 30px rgba(0,0,0,0.03); }"
-    ".basket-title { font-size: 28px; font-weight: 900; color: #444; }"
+    ".basket-title { font-size: 28px; font-weight: 900; color: #222; }"
     ".total-lbl { font-size: 38px; font-weight: 900; color: #333; }"
     ".btn-checkout { background: #D70F64; color: white; border-radius: 15px; padding: 18px; font-size: 16px; font-weight: 800; border: none; }"
     "treeview { color: #00f2ff !important; background-color: #D3D3D4; font-weight: bold; font-size: 15px; }"
