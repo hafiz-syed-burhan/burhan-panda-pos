@@ -204,7 +204,7 @@ void build_main_ui() {
     gtk_box_pack_start(GTK_BOX(header), logo, FALSE, FALSE, 0);
     
     search_entry = gtk_entry_new();
-    gtk_entry_set_placeholder_text(GTK_ENTRY(search_entry), "Search for restaurants...");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(search_entry), "Search for foods...");
     gtk_style_context_add_class(gtk_widget_get_style_context(search_entry), "search-bar");
     gtk_widget_set_size_request(search_entry, 450, -1);
     gtk_box_pack_start(GTK_BOX(header), search_entry, TRUE, FALSE, 0);
