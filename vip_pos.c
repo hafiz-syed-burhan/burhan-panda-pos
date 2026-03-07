@@ -24,8 +24,11 @@ const char *ULTIMATE_CSS =
     //".basket-title { font-size: 30px; font-weight: 900; color: #333; }"
     ".total-lbl { font-size: 38px; font-weight: 900; color: #333; }"
     ".btn-checkout { background: #D70F64; color: white; border-radius: 15px; padding: 18px; font-size: 16px; font-weight: 800; border: none; }"
-    "treeview { color: #007BFF !important; background-color: #D3D3D4; font-weight: bold; font-size: 15px; }"
+    "treeview { background-color: #D3D3D4; font-weight: bold; font-size: 15px; }"
+    "treeview::item { color: #007BFF; }"
     "treeview header button label { color: #D70F64; font-weight: 800; }";
+    //"treeview { color: #007BFF !important; background-color: #D3D3D4; font-weight: bold; font-size: 15px; }"
+    //"treeview header button label { color: #D70F64; font-weight: 800; }";
 // ==================== DATA STRUCTURES ====================
 typedef struct {
     char *name;
