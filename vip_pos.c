@@ -24,6 +24,7 @@ const char *ULTIMATE_CSS =
     ".total-lbl { font-size: 38px; font-weight: 900; color: #333; }"
     ".btn-checkout { background: #D70F64; color: white; border-radius: 15px; padding: 18px; font-size: 16px; font-weight: 800; border: none; }";
     "treeview { color: #00f2ff !important; background-color: #1a1a2e; font-weight: bold; font-size: 15px; }"
+    "treeview header button label { color: #D70F64; font-weight: 800; }";
 // ==================== DATA STRUCTURES ====================
 typedef struct {
     char *name;
