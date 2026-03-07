@@ -23,7 +23,7 @@ const char *ULTIMATE_CSS =
     ".cart-panel { background: white; padding: 30px; border-left: 1px solid #eee; box-shadow: -10px 0 30px rgba(0,0,0,0.03); }"
     ".total-lbl { font-size: 38px; font-weight: 900; color: #333; }"
     ".btn-checkout { background: #D70F64; color: white; border-radius: 15px; padding: 18px; font-size: 16px; font-weight: 800; border: none; }"
-    "treeview { color: #00f2ff !important; background-color: #1a1a2e; font-weight: bold; font-size: 15px; }"
+    "treeview { color: #00f2ff !important; background-color: #D3D3D3; font-weight: bold; font-size: 15px; }"
     "treeview header button label { color: #D70F64; font-weight: 800; }";
 // ==================== DATA STRUCTURES ====================
 typedef struct {
