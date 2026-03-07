@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-// ==================== THEME & BRANDING (FOODPANDA STYLE) ====================
+// ==================== THEME & BRANDING ====================
 const char *ULTIMATE_CSS = 
     "* { font-family: 'Inter', 'Segoe UI', sans-serif; }"
     "window { background: #F7F7F7; }"
@@ -41,7 +41,7 @@ FoodItem inventory[] = {
     {"Chocolate Lava Cake", 450, "Desserts"}, {"New York Cheesecake", 600, "Desserts"}
 };
 
-GtkWidget *main_stack, *cart_view, *total_label, *search_entry;
+GtkWidget *main_stack, *cart_view, *total_label, *search_entry, *menu_grid; // [GREEN: MODIFIED] Added menu_grid
 GtkListStore *cart_store;
 int total_bill = 0;
 
@@ -62,6 +62,42 @@ void on_add_to_cart(GtkWidget *w, gpointer data) {
     update_total_display();
 }
 
+// [GREEN: ADDED] Searching logic function
+void refresh_menu(const char *query) {
+    GList *children = gtk_container_get_children(GTK_CONTAINER(menu_grid));
+    for (GList *iter = children; iter != NULL; iter = g_list_next(iter)) {
+        gtk_widget_destroy(GTK_WIDGET(iter->data));
+    }
+    g_list_free(children);
+
+    int count = 0;
+    for (int i = 0; i < 10; i++) {
+        if (query == NULL || strlen(query) == 0 || g_strrstr(g_ascii_strdown(inventory[i].name, -1), g_ascii_strdown(query, -1))) {
+            GtkWidget *card = gtk_button_new();
+            gtk_style_context_add_class(gtk_widget_get_style_context(card), "product-card");
+            gtk_widget_set_size_request(card, 200, 150);
+            GtkWidget *cv = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+            GtkWidget *name = gtk_label_new(inventory[i].name);
+            char p[32]; sprintf(p, "Rs. %d", inventory[i].price);
+            GtkWidget *price = gtk_label_new(p);
+            gtk_style_context_add_class(gtk_widget_get_style_context(price), "price-tag");
+            gtk_box_pack_start(GTK_BOX(cv), name, TRUE, TRUE, 0);
+            gtk_box_pack_start(GTK_BOX(cv), price, FALSE, FALSE, 0);
+            gtk_container_add(GTK_CONTAINER(card), cv);
+            g_signal_connect(card, "clicked", G_CALLBACK(on_add_to_cart), GINT_TO_POINTER(i));
+            gtk_grid_attach(GTK_GRID(menu_grid), card, count % 3, count / 3, 1, 1);
+            count++;
+        }
+    }
+    gtk_widget_show_all(menu_grid);
+}
+
+// [GREEN: ADDED] Callback for search entry
+void on_search_changed(GtkEditable *editable, gpointer user_data) {
+    const char *text = gtk_entry_get_text(GTK_ENTRY(editable));
+    refresh_menu(text);
+}
+
 void on_nav_click(GtkWidget *b, gpointer page_id) {
     gtk_stack_set_visible_child_name(GTK_STACK(main_stack), (const char *)page_id);
 }
@@ -72,7 +108,6 @@ void on_checkout(GtkWidget *b, gpointer d) {
     gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "Burhan Panda is preparing your food.\nTotal Amount: Rs. %d", total_bill);
     gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
-    
     gtk_list_store_clear(cart_store);
     total_bill = 0;
     update_total_display();
@@ -94,30 +129,13 @@ GtkWidget* create_dashboard() {
     }
     gtk_box_pack_start(GTK_BOX(vbox), cat_box, FALSE, FALSE, 0);
 
-    GtkWidget *grid = gtk_grid_new();
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 20);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 20);
-    for(int i=0; i<10; i++) {
-        GtkWidget *card = gtk_button_new();
-        gtk_style_context_add_class(gtk_widget_get_style_context(card), "product-card");
-        gtk_widget_set_size_request(card, 200, 150);
-        
-        GtkWidget *cv = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-        GtkWidget *name = gtk_label_new(inventory[i].name);
-        gtk_label_set_xalign(GTK_LABEL(name), 0);
-        char p[32]; sprintf(p, "Rs. %d", inventory[i].price);
-        GtkWidget *price = gtk_label_new(p);
-        gtk_style_context_add_class(gtk_widget_get_style_context(price), "price-tag");
-        gtk_label_set_xalign(GTK_LABEL(price), 0);
-        
-        gtk_box_pack_start(GTK_BOX(cv), name, TRUE, TRUE, 0);
-        gtk_box_pack_start(GTK_BOX(cv), price, FALSE, FALSE, 0);
-        gtk_container_add(GTK_CONTAINER(card), cv);
-        
-        g_signal_connect(card, "clicked", G_CALLBACK(on_add_to_cart), GINT_TO_POINTER(i));
-        gtk_grid_attach(GTK_GRID(grid), card, i%3, i/3, 1, 1);
-    }
-    gtk_box_pack_start(GTK_BOX(vbox), grid, TRUE, TRUE, 0);
+    menu_grid = gtk_grid_new(); // [GREEN: MODIFIED] Use global menu_grid
+    gtk_grid_set_row_spacing(GTK_GRID(menu_grid), 20);
+    gtk_grid_set_column_spacing(GTK_GRID(menu_grid), 20);
+    
+    refresh_menu(""); // [GREEN: ADDED] Initial load
+
+    gtk_box_pack_start(GTK_BOX(vbox), menu_grid, TRUE, TRUE, 0);
     return scroll;
 }
 
@@ -126,18 +144,15 @@ GtkWidget* create_orders_page() {
     gtk_container_set_border_width(GTK_CONTAINER(box), 30);
     GtkWidget *title = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(title), "<span size='xx-large' weight='bold' color='#D70F64'>Order History</span>");
-    
     GtkListStore *store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     GtkTreeIter iter;
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter, 0, "#BK9921", 1, "March 07, 2026", 2, "Delivered", -1);
-    
     GtkWidget *tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
     GtkCellRenderer *r = gtk_cell_renderer_text_new();
     gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(tree), -1, "Order ID", r, "text", 0, NULL);
     gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(tree), -1, "Date", r, "text", 1, NULL);
     gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(tree), -1, "Status", r, "text", 2, NULL);
-
     gtk_box_pack_start(GTK_BOX(box), title, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(box), tree, TRUE, TRUE, 0);
     return box;
@@ -148,12 +163,10 @@ GtkWidget* create_profile_page() {
     gtk_container_set_border_width(GTK_CONTAINER(box), 40);
     GtkWidget *title = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(title), "<span size='xx-large' weight='bold' color='#D70F64'>Profile Settings</span>");
-    
     GtkWidget *name = gtk_entry_new(); gtk_entry_set_placeholder_text(GTK_ENTRY(name), "Full Name");
     GtkWidget *email = gtk_entry_new(); gtk_entry_set_placeholder_text(GTK_ENTRY(email), "Email Address");
     GtkWidget *save = gtk_button_new_with_label("Update Profile");
     gtk_style_context_add_class(gtk_widget_get_style_context(save), "btn-checkout");
-
     gtk_box_pack_start(GTK_BOX(box), title, FALSE, FALSE, 10);
     gtk_box_pack_start(GTK_BOX(box), name, FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(box), email, FALSE, FALSE, 5);
@@ -166,19 +179,16 @@ GtkWidget* create_settings_page() {
     gtk_container_set_border_width(GTK_CONTAINER(box), 40);
     GtkWidget *title = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(title), "<span size='xx-large' weight='bold' color='#D70F64'>App Configurations</span>");
-
     GtkWidget *sw_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
     GtkWidget *sw_lbl = gtk_label_new("Enable Dark Mode (VIP)");
     GtkWidget *sw = gtk_switch_new();
     gtk_box_pack_start(GTK_BOX(sw_box), sw_lbl, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(sw_box), sw, FALSE, FALSE, 0);
-
     GtkWidget *lang_lbl = gtk_label_new("Language Selection:");
     GtkWidget *combo = gtk_combo_box_text_new();
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "English");
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "Urdu (Roman)");
     gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
-
     gtk_box_pack_start(GTK_BOX(box), title, FALSE, FALSE, 10);
     gtk_box_pack_start(GTK_BOX(box), sw_box, FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(box), lang_lbl, FALSE, FALSE, 5);
@@ -196,7 +206,6 @@ void build_main_ui() {
     GtkWidget *root = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_container_add(GTK_CONTAINER(win), root);
 
-    // --- Header ---
     GtkWidget *header = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 20);
     gtk_style_context_add_class(gtk_widget_get_style_context(header), "top-header");
     GtkWidget *logo = gtk_label_new("Burhan Panda 🐼");
@@ -207,13 +216,16 @@ void build_main_ui() {
     gtk_entry_set_placeholder_text(GTK_ENTRY(search_entry), "Search for foods...");
     gtk_style_context_add_class(gtk_widget_get_style_context(search_entry), "search-bar");
     gtk_widget_set_size_request(search_entry, 450, -1);
+    
+    // [GREEN: ADDED] Connect search signal
+    g_signal_connect(search_entry, "changed", G_CALLBACK(on_search_changed), NULL);
+
     gtk_box_pack_start(GTK_BOX(header), search_entry, TRUE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(root), header, FALSE, FALSE, 0);
 
     GtkWidget *main_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_box_pack_start(GTK_BOX(root), main_hbox, TRUE, TRUE, 0);
 
-    // --- Sidebar ---
     GtkWidget *side = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
     gtk_style_context_add_class(gtk_widget_get_style_context(side), "sidebar");
     gtk_widget_set_size_request(side, 200, -1);
@@ -228,7 +240,6 @@ void build_main_ui() {
     }
     gtk_box_pack_start(GTK_BOX(main_hbox), side, FALSE, FALSE, 0);
 
-    // --- Center Stack (FIXED) ---
     main_stack = gtk_stack_new();
     gtk_stack_set_transition_type(GTK_STACK(main_stack), GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
     
@@ -239,7 +250,6 @@ void build_main_ui() {
     
     gtk_box_pack_start(GTK_BOX(main_hbox), main_stack, TRUE, TRUE, 0);
 
-    // --- Right Cart Panel ---
     GtkWidget *cart = gtk_box_new(GTK_ORIENTATION_VERTICAL, 15);
     gtk_style_context_add_class(gtk_widget_get_style_context(cart), "cart-panel");
     gtk_widget_set_size_request(cart, 350, -1);
