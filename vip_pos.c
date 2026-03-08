@@ -145,7 +145,7 @@ void on_image_upload_clicked(GtkWidget *btn, gpointer data) {
 
 void on_profile_update(GtkWidget *btn, gpointer data) {
     GtkWidget *dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Profile Updated!");
-    gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "Aapki settings save kar di gayi hain.");
+    gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "Your settings have been saved.");
     gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
 }
