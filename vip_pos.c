@@ -2,6 +2,34 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sqlite3.h> // SQLite Library
+
+// ==================== DATABASE SECTION ====================
+sqlite3 *db;
+
+void init_database() {
+    int rc = sqlite3_open("burhan_panda.db", &db);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        return;
+    }
+    char *err_msg = 0;
+    // Orders table create karna agar exist nahi karti
+    const char *sql = "CREATE TABLE IF NOT EXISTS orders("
+                      "id TEXT, date TEXT, status TEXT, total INT);";
+    sqlite3_exec(db, sql, 0, 0, &err_msg);
+    if (err_msg) {
+        printf("SQL Error: %s\n", err_msg);
+        sqlite3_free(err_msg);
+    }
+}
+
+void save_order_to_db(const char* id, int total) {
+    char sql[256];
+    // Database mein order insert karne ki query
+    sprintf(sql, "INSERT INTO orders VALUES('%s', datetime('now', 'localtime'), 'Preparing', %d);", id, total);
+    sqlite3_exec(db, sql, 0, 0, 0);
+}
 
 // ==================== THEME & BRANDING ====================
 const char *ULTIMATE_CSS = 
@@ -118,11 +146,15 @@ void on_checkout(GtkWidget *b, gpointer d) {
     GtkTreeIter iter;
     char order_id[16];
     sprintf(order_id, "#BK%d", 1000 + rand()%9000);
+    
+    // SQLite mein save karna
+    save_order_to_db(order_id, total_bill);
+
     gtk_list_store_append(order_history_store, &iter);
     gtk_list_store_set(order_history_store, &iter, 0, order_id, 1, "Just Now", 2, "Preparing", -1);
 
     GtkWidget *dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Order Confirmed! 🐼");
-    gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "Burhan Panda is preparing your food.\nOrder ID: %s | Total: Rs. %d", order_id, total_bill);
+    gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "Burhan Panda is preparing your food.\nOrder ID: %s | Total: Rs. %d\n(Saved to Database)", order_id, total_bill);
     gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
     
@@ -131,7 +163,6 @@ void on_checkout(GtkWidget *b, gpointer d) {
     update_total_display();
 }
 
-// Naya Image Upload Function
 void on_image_upload_clicked(GtkWidget *btn, gpointer data) {
     GtkWidget *dialog = gtk_file_chooser_dialog_new("Select Profile Picture", NULL, GTK_FILE_CHOOSER_ACTION_OPEN, "_Cancel", GTK_RESPONSE_CANCEL, "_Open", GTK_RESPONSE_ACCEPT, NULL);
     if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
@@ -205,7 +236,6 @@ GtkWidget* create_profile_page() {
     GtkWidget *title = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(title), "<span size='xx-large' weight='bold' color='#D70F64'>Profile Settings</span>");
 
-    // Profile Image UI
     profile_pixbuf_widget = gtk_image_new_from_icon_name("avatar-default", GTK_ICON_SIZE_DIALOG);
     GtkWidget *img_btn = gtk_button_new_with_label("📷 Upload Photo");
     gtk_style_context_add_class(gtk_widget_get_style_context(img_btn), "category-btn");
@@ -324,10 +354,18 @@ void build_main_ui() {
 
 int main(int argc, char *argv[]) {
     gtk_init(&argc, &argv);
+    
+    // Database initialize karna
+    init_database();
+    
     GtkCssProvider *cp = gtk_css_provider_new();
     gtk_css_provider_load_from_data(cp, ULTIMATE_CSS, -1, NULL);
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(cp), 800);
+    
     build_main_ui();
     gtk_main();
+    
+    // Database band karna jab app close ho
+    sqlite3_close(db);
     return 0;
 }
