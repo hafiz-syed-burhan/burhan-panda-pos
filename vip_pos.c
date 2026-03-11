@@ -45,6 +45,8 @@ const char *ULTIMATE_CSS =
     ".category-btn { background: #f0f0f0; border-radius: 20px; padding: 8px 18px; border: 1px solid #ddd; font-weight: 600; margin-right: 10px; }"
     ".category-btn:hover { background: #D70F64; color: white; }"
     ".product-card { background: white; border: 1px solid #f0f0f0; border-radius: 20px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }"
+    ".product-card:hover { border: 2px solid #D70F64; background: #FFF5F8; box-shadow: 0 6px 15px rgba(215, 15, 100, 0.1); }"
+    ".product-card:active { background: #e0e0e0; }"
     ".price-tag { color: #D70F64; font-size: 16px; font-weight: 800; }"
     ".cart-panel { background: white; padding: 30px; border-left: 1px solid #eee; box-shadow: -10px 0 30px rgba(0,0,0,0.03); }"
     ".total-lbl { font-size: 38px; font-weight: 900; color: #333; }"
