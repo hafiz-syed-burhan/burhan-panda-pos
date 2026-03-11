@@ -86,6 +86,24 @@ void update_total_display() {
     gtk_label_set_text(GTK_LABEL(total_label), buf);
 }
 
+// USKE THEEK NEECHE YEH WALA SECTION RAKHEIN
+// ==================== CART OPERATIONS ====================
+void on_remove_item(GtkTreeView *tree_view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data>
+    GtkTreeModel *model = gtk_tree_view_get_model(tree_view);
+    GtkTreeIter iter;
+
+    if (gtk_tree_model_get_iter(model, &iter, path)) {
+        int price;
+        gtk_tree_model_get(model, &iter, 1, &price, -1);
+
+        total_bill -= price;
+        update_total_display(); // Ab compiler ko pata hai ke ye function upar maujood hai
+
+        gtk_list_store_remove(GTK_LIST_STORE(model), &iter);
+    }
+}
+
+
 void on_add_to_cart(GtkWidget *w, gpointer data) {
     int idx = GPOINTER_TO_INT(data);
     GtkTreeIter iter;
