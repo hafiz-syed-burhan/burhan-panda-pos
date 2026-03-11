@@ -329,7 +329,8 @@ void build_main_ui() {
     
     GtkWidget *basket_label = gtk_label_new(NULL);
     //gtk_label_set_markup(GTK_LABEL(basket_label), "<b>Your Basket</b>");
-    gtk_label_set_markup(GTK_LABEL(basket_label), "<span size='x-large' weight='heavy' color='#333'>Your Basket</span>");
+    //gtk_label_set_markup(GTK_LABEL(basket_label), "<span size='x-large' weight='heavy' color='#333'>Your Basket</span>");
+    gtk_label_set_markup(GTK_LABEL(basket_label), "<span size='x-large' weight='heavy'>Your Basket <span size='xx-large'>🛒</span></span>");
     gtk_box_pack_start(GTK_BOX(cart), basket_label, FALSE, FALSE, 0);
 
     cart_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
