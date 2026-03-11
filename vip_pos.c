@@ -353,7 +353,7 @@ void build_main_ui() {
 
     cart_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
     cart_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(cart_store));
-    g_signal_connect(tree_view, "row-activated", G_CALLBACK(on_remove_item), NULL);
+    g_signal_connect(cart_view, "row-activated", G_CALLBACK(on_remove_item), NULL);
     GtkCellRenderer *r = gtk_cell_renderer_text_new();
     gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(cart_view), -1, "Item", r, "text", 0, NULL);
     gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(cart_view), -1, "Price", r, "text", 1, NULL);
