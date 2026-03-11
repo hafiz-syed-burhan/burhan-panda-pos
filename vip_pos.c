@@ -39,7 +39,7 @@ const char *ULTIMATE_CSS =
     ".logo-text { color: white; font-size: 24px; font-weight: 900; letter-spacing: -1px; }"
     ".search-bar { border-radius: 25px; border: none; padding: 8px 20px; font-size: 13px; }"
     ".sidebar { background: white; border-right: 1px solid #eee; padding: 20px 10px; }"
-    ".nav-btn { background: none; color: #333; border-radius: 12px; padding: 12px; border: none; font-weight: bold; text-align: left; margin-bottom: 5px; }"
+    ".nav-btn { background: none; color: #333; border-radius: 12px; padding: 12px; border: none; font-weight: 800; font-size: 16px; text-align: left; margin-bottom: 5px; }"
     ".nav-btn:hover { background: #D70F64; color: #FFFFFF; }"
     ".main-content { background: #FFFFFF; border-radius: 30px 30px 0 0; padding: 25px; margin-top: 10px; }"
     ".category-btn { background: #f0f0f0; border-radius: 20px; padding: 8px 18px; border: 1px solid #ddd; font-weight: 600; margin-right: 10px; }"
