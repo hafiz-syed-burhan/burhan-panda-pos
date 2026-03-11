@@ -88,7 +88,7 @@ void update_total_display() {
 
 // USKE THEEK NEECHE YEH WALA SECTION RAKHEIN
 // ==================== CART OPERATIONS ====================
-void on_remove_item(GtkTreeView *tree_view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data>
+void on_remove_item(GtkTreeView *tree_view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data) {
     GtkTreeModel *model = gtk_tree_view_get_model(tree_view);
     GtkTreeIter iter;
 
