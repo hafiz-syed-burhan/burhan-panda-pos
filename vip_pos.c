@@ -59,24 +59,52 @@ const char *ULTIMATE_CSS =
     "treeview header button label { color: #D70F64; font-weight: 800; }";
 
 // ==================== DATA STRUCTURES ====================
+// Line 73: Struct mein img_path add karen
 typedef struct {
     char *name;
     int price;
     char *category;
+    char *img_path; // <--- Naya field add kiya
 } FoodItem;
 
+// Line 80: Inventory array mein paths add karen
 FoodItem inventory[] = {
-    {"Classic Beef Burger", 750, "Burgers"}, {"Zinger Combo", 950, "Burgers"},
-    {"Pepperoni Pizza L", 1500, "Pizza"}, {"Margherita M", 1100, "Pizza"},
-    {"Alfredo Pasta", 850, "Pasta"}, {"Arrabiata Pasta", 780, "Pasta"},
-    {"Iced Caramel Latte", 550, "Drinks"}, {"Coca Cola 500ml", 150, "Drinks"},
-    {"Chocolate Lava Cake", 450, "Desserts"}, {"New York Cheesecake", 600, "Desserts"}
+    {"Classic Beef Burger", 750, "Burgers", "images/burger.png"},
+    {"Zinger Combo", 950, "Burgers", "images/zinger.png"},
+    {"Pepperoni Pizza L", 1500, "Pizza", "images/pizza.png"},
+    {"Margherita M", 1100, "Pizza", "images/margherita.png"},
+    {"Alfredo Pasta", 850, "Pasta", "images/pasta.png"},
+    {"Arrabiata Pasta", 780, "Pasta", "images/arrabiata.png"},
+    {"Iced Caramel Latte", 550, "Drinks", "images/coffee.png"},
+    {"Coca Cola 500ml", 150, "Drinks", "images/coke.png"},
+    {"Chocolate Lava Cake", 450, "Desserts", "images/cake.png"},
+    {"New York Cheesecake", 600, "Desserts", "images/cheesecake.png"}
 };
 
 GtkWidget *main_stack, *cart_view, *total_label, *search_entry, *menu_grid, *order_history_tree, *profile_pixbuf_widget;
 GtkListStore *cart_store, *order_history_store;
 int total_bill = 0;
 char *current_category = "All Items";
+
+
+
+// ==================== IMAGE HELPER SECTION ====================
+GtkWidget* create_product_image(const char *path) {
+    // Image ko resize karne ke liye Pixbuf use kiya hai
+    GdkPixbuf *pb = gdk_pixbuf_new_from_file_at_scale(path, 150, 110, TRUE, NULL);
+    GtkWidget *img;
+    
+    if (pb) {
+        img = gtk_image_new_from_pixbuf(pb);
+        g_object_unref(pb); // Memory clean karne ke liye
+    } else {
+        
+        img = gtk_image_new_from_icon_name("image-missing", GTK_ICON_SIZE_DIALOG);
+    }
+    return img;
+}
+
+
 
 // ==================== APP LOGIC ====================
 
@@ -86,7 +114,8 @@ void update_total_display() {
     gtk_label_set_text(GTK_LABEL(total_label), buf);
 }
 
-// USKE THEEK NEECHE YEH WALA SECTION RAKHEIN
+
+
 // ==================== CART OPERATIONS ====================
 void on_remove_item(GtkTreeView *tree_view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data) {
     GtkTreeModel *model = gtk_tree_view_get_model(tree_view);
@@ -95,7 +124,7 @@ void on_remove_item(GtkTreeView *tree_view, GtkTreePath *path, GtkTreeViewColumn
     if (gtk_tree_model_get_iter(model, &iter, path)) {
         int price;
         gtk_tree_model_get(model, &iter, 1, &price, -1);
-
+        
         total_bill -= price;
         update_total_display(); // Ab compiler ko pata hai ke ye function upar maujood hai
 
@@ -129,14 +158,22 @@ void refresh_menu(const char *search_query) {
         if (cat_match && search_match) {
             GtkWidget *card = gtk_button_new();
             gtk_style_context_add_class(gtk_widget_get_style_context(card), "product-card");
-            gtk_widget_set_size_request(card, 200, 150);
-            GtkWidget *cv = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+            gtk_widget_set_size_request(card, 200, 320);
+            GtkWidget *cv = gtk_box_new(GTK_ORIENTATION_VERTICAL, 12); // Spacing 8 rakhen behtar look ke liye
+
+// 1. Image create karen (Helper function call ho raha hai)
+            GtkWidget *img = create_product_image(inventory[i].img_path);
+
+// 2. Name aur Price labels banayen
             GtkWidget *name = gtk_label_new(inventory[i].name);
             char p[32]; sprintf(p, "Rs. %d", inventory[i].price);
             GtkWidget *price = gtk_label_new(p);
             gtk_style_context_add_class(gtk_widget_get_style_context(price), "price-tag");
-            gtk_box_pack_start(GTK_BOX(cv), name, TRUE, TRUE, 0);
-            gtk_box_pack_start(GTK_BOX(cv), price, FALSE, FALSE, 0);
+
+// 3. PACKING ORDER (Boht zaroori hai):
+            gtk_box_pack_start(GTK_BOX(cv), img, TRUE, TRUE, 0);   // Sabse upar Image
+            gtk_box_pack_start(GTK_BOX(cv), name, FALSE, FALSE, 0); // Beech mein Naam
+            gtk_box_pack_start(GTK_BOX(cv), price, FALSE, FALSE, 0); // Sabse niche Price
             gtk_container_add(GTK_CONTAINER(card), cv);
             g_signal_connect(card, "clicked", G_CALLBACK(on_add_to_cart), GINT_TO_POINTER(i));
             gtk_grid_attach(GTK_GRID(menu_grid), card, count % 3, count / 3, 1, 1);
@@ -310,8 +347,13 @@ void build_main_ui() {
     gtk_style_context_add_class(gtk_widget_get_style_context(logo), "logo-text");
     gtk_box_pack_start(GTK_BOX(header), logo, FALSE, FALSE, 0);
     
+    // 2. SPACER YAHAN LAGAYEIN (Beech mein)
+    GtkWidget *spacer = gtk_label_new("");
+    gtk_box_pack_start(GTK_BOX(header), spacer, TRUE, TRUE, 0);
+ 
     search_entry = gtk_entry_new();
     gtk_entry_set_placeholder_text(GTK_ENTRY(search_entry), "Search for foods...");
+    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(search_entry), GTK_ENTRY_ICON_PRIMARY, "edit-find-symbolic");
     gtk_style_context_add_class(gtk_widget_get_style_context(search_entry), "search-bar");
     gtk_widget_set_size_request(search_entry, 450, -1);
     g_signal_connect(search_entry, "changed", G_CALLBACK(on_search_changed), NULL);
