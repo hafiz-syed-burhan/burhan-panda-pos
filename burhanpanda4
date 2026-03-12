@@ -22,7 +22,10 @@ const char *ULTIMATE_CSS =
     ".price-tag { color: #D70F64; font-size: 16px; font-weight: 800; }"
     ".cart-panel { background: white; padding: 30px; border-left: 1px solid #eee; box-shadow: -10px 0 30px rgba(0,0,0,0.03); }"
     ".total-lbl { font-size: 38px; font-weight: 900; color: #333; }"
-    ".btn-checkout { background: #D70F64; color: white; border-radius: 15px; padding: 18px; font-size: 16px; font-weight: 800; border: none; }";
+    ".btn-checkout { background: #D70F64; color: white; border-radius: 15px; padding: 18px; font-size: 16px; font-weight: 800; border: none; }"
+    /* Fixed: Double ## to single # */
+    "treeview { color: #00f2ff !important; background-color: #1a1a2e; font-weight: bold; font-size: 15px; }"
+    "treeview header button label { color: #D70F64; font-weight: 800; }";
 
 // ==================== DATA STRUCTURES ====================
 typedef struct {
@@ -76,14 +79,37 @@ void on_checkout(GtkWidget *b, gpointer d) {
     update_total_display();
 }
 
-// ==================== UI BUILDER ====================
+// ==================== PROFILE PAGE (NEW) ====================
+GtkWidget* create_profile_page() {
+    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 20);
+    gtk_container_set_border_width(GTK_CONTAINER(box), 40);
 
+    GtkWidget *title = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(title), "<span size='xx-large' weight='bold' color='#D70F64'>User Profile</span>");
+    
+    GtkWidget *name = gtk_entry_new();
+    gtk_entry_set_placeholder_text(GTK_ENTRY(name), "Enter Your Name");
+    
+    GtkWidget *email = gtk_entry_new();
+    gtk_entry_set_placeholder_text(GTK_ENTRY(email), "Enter Your Email");
+
+    GtkWidget *save = gtk_button_new_with_label("Save Profile Details");
+    gtk_style_context_add_class(gtk_widget_get_style_context(save), "btn-checkout"); // Same style as checkout
+
+    gtk_box_pack_start(GTK_BOX(box), title, FALSE, FALSE, 10);
+    gtk_box_pack_start(GTK_BOX(box), name, FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(box), email, FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(box), save, FALSE, FALSE, 20);
+
+    return box;
+}
+
+// ==================== DASHBOARD BUILDER ====================
 GtkWidget* create_dashboard() {
     GtkWidget *scroll = gtk_scrolled_window_new(NULL, NULL);
     GtkWidget *vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 20);
     gtk_container_add(GTK_CONTAINER(scroll), vbox);
 
-    // Categories
     GtkWidget *cat_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     const char *cats[] = {"All Items", "Burgers", "Pizza", "Pasta", "Drinks"};
     for(int i=0; i<5; i++) {
@@ -93,7 +119,6 @@ GtkWidget* create_dashboard() {
     }
     gtk_box_pack_start(GTK_BOX(vbox), cat_box, FALSE, FALSE, 0);
 
-    // Product Grid
     GtkWidget *grid = gtk_grid_new();
     gtk_grid_set_row_spacing(GTK_GRID(grid), 20);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 20);
@@ -108,7 +133,6 @@ GtkWidget* create_dashboard() {
         char p[32]; sprintf(p, "Rs. %d", inventory[i].price);
         GtkWidget *price = gtk_label_new(p);
         gtk_style_context_add_class(gtk_widget_get_style_context(price), "price-tag");
-        gtk_label_set_xalign(GTK_LABEL(price), 0);
         
         gtk_box_pack_start(GTK_BOX(cv), name, TRUE, TRUE, 0);
         gtk_box_pack_start(GTK_BOX(cv), price, FALSE, FALSE, 0);
@@ -132,7 +156,7 @@ void build_main_ui() {
     // --- Header ---
     GtkWidget *header = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 20);
     gtk_style_context_add_class(gtk_widget_get_style_context(header), "top-header");
-    GtkWidget *logo = gtk_label_new("burhan panda 🐼");
+    GtkWidget *logo = gtk_label_new("Burhan Panda 🐼");
     gtk_style_context_add_class(gtk_widget_get_style_context(logo), "logo-text");
     gtk_box_pack_start(GTK_BOX(header), logo, FALSE, FALSE, 0);
     
@@ -162,14 +186,14 @@ void build_main_ui() {
     }
     gtk_box_pack_start(GTK_BOX(main_hbox), side, FALSE, FALSE, 0);
 
-    // --- Center Stack ---
+    // --- Center Stack (FIXED FOR PROFILE) ---
     main_stack = gtk_stack_new();
     gtk_stack_set_transition_type(GTK_STACK(main_stack), GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
     gtk_box_pack_start(GTK_BOX(main_hbox), main_stack, TRUE, TRUE, 0);
     
     gtk_stack_add_named(GTK_STACK(main_stack), create_dashboard(), "dash");
     gtk_stack_add_named(GTK_STACK(main_stack), gtk_label_new("Order History Loading..."), "orders");
-    gtk_stack_add_named(GTK_STACK(main_stack), gtk_label_new("User Profile Settings"), "prof");
+    gtk_stack_add_named(GTK_STACK(main_stack), create_profile_page(), "prof"); // Link to Profile Page function
     gtk_stack_add_named(GTK_STACK(main_stack), gtk_label_new("App Configurations"), "set");
 
     // --- Right Cart Panel ---
@@ -177,7 +201,9 @@ void build_main_ui() {
     gtk_style_context_add_class(gtk_widget_get_style_context(cart), "cart-panel");
     gtk_widget_set_size_request(cart, 350, -1);
     
-    gtk_box_pack_start(GTK_BOX(cart), gtk_label_new("<b>Your Basket</b>"), FALSE, FALSE, 0);
+    GtkWidget *basket_label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(basket_label), "<b>Your Basket</b>");
+    gtk_box_pack_start(GTK_BOX(cart), basket_label, FALSE, FALSE, 0);
     
     cart_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
     cart_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(cart_store));
