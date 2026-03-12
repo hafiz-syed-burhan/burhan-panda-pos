@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# 1. USER variable set karna zaroori hai VNC ke liye
+# 1. Environment Setup
 export USER=root
 export HOME=/root
+export DISPLAY=:1
 
-# 2. Purani locks saaf karna (agar container restart ho)
+# 2. Purani locks saaf karna
 rm -rf /tmp/.X1-lock /tmp/.X11-unix/X1
 
 # 3. VNC Server setup
@@ -12,15 +13,19 @@ mkdir -p ~/.vnc
 echo "burhan" | vncpasswd -f > ~/.vnc/passwd
 chmod 600 ~/.vnc/passwd
 
-# VNC ko forced start karna
+# 4. VNC Server ko Start karna (Pehle server chalna chahiye)
 tightvncserver :1 -geometry 1280x800 -depth 24
 
-# 4. NoVNC Proxy start (Background mein)
+# 5. NoVNC Proxy start karna (Background mein &)
 /usr/share/novnc/utils/launch.sh --vnc localhost:5901 --listen 6080 &
 
-# 5. App chalane se pehle thora intezar taake display ready ho jaye
+# Display ready honay ka intezar
 sleep 5
-export DISPLAY=:1
 
-# 6. App start karna
-./vip_pos
+# 6. AB LAGAYEIN LOOP (Taake app crash ho to restart ho)
+echo "Starting BurhanPanda App with Auto-Restart..."
+while true; do
+    ./vip_pos
+    echo "App (vip_pos) crashed or closed. Restarting in 2 seconds..."
+    sleep 2
+done
