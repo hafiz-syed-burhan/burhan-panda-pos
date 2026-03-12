@@ -24,11 +24,16 @@ WORKDIR /usr/src/app
 # Saara code aur images copy karein
 COPY . .
 
+# Pehle dos2unix install karein
+RUN apt-get update && apt-get install -y dos2unix
+
+# File ko Linux format mein convert karein aur permission dein
+RUN dos2unix entrypoint.sh && chmod +x entrypoint.sh
+
 # App compile karein
 RUN make clean && make
 
-# entrypoint.sh ko executable banayein
-RUN chmod +x entrypoint.sh
+
 
 # NoVNC ka port (6080) expose karein
 EXPOSE 6080
