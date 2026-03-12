@@ -1,8 +1,13 @@
 FROM ubuntu:22.04
+
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Emojis ke liye fonts-noto-color-emoji ko add kiya gaya hai
+# Desktop tools aur VNC server install karein
 RUN apt-get update && apt-get install -y \
+    xfce4 xfce4-goodies \
+    tightvncserver \
+    novnc \
+    python3-websockify \
     build-essential \
     libgtk-3-dev \
     pkg-config \
@@ -15,8 +20,18 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
+
+# Saara code aur images copy karein
 COPY . .
 
-RUN make
+# App compile karein
+RUN make clean && make
 
-CMD ["./vip_pos"]
+# entrypoint.sh ko executable banayein
+RUN chmod +x entrypoint.sh
+
+# NoVNC ka port (6080) expose karein
+EXPOSE 6080
+
+# Seedha app chalane ke bajaye startup script chalaein
+CMD ["./entrypoint.sh"]
