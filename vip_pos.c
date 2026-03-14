@@ -391,30 +391,36 @@ void build_main_ui() {
     }
 
 //--------------------------------------------------------------    
+    //--------------------------------------------------------------    
     // 1. Partition Line (Separator)
     GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_box_pack_start(GTK_BOX(side), sep, FALSE, FALSE, 15); 
 
-    // 2. Panda Image (Sahi Path aur Filename ke sath)
-    // Aapke terminal ke mutabiq: /home/syed-burhan/Downloads/Pasted image.png
-    GdkPixbuf *p_pb = gdk_pixbuf_new_from_file("/home/syed-burhan/Downloads/Pasted image.png", NULL);
+    // 2. Panda Image Load (Ab path asan hai)
+    GError *error = NULL;
+    GdkPixbuf *p_pb = gdk_pixbuf_new_from_file("/home/syed-burhan/Downloads/panda_logo.png", &error);
 
     if (p_pb) {
-        // Image ko sidebar ke liye chota (130x130) karein
-        GdkPixbuf *p_scaled = gdk_pixbuf_scale_simple(p_pb, 130, 130, GDK_INTERP_BILINEAR);
+        // Sidebar ki width aksar 150-200 hoti hai, toh 120 safe size hai
+        GdkPixbuf *p_scaled = gdk_pixbuf_scale_simple(p_pb, 120, 120, GDK_INTERP_BILINEAR);
         GtkWidget *p_img = gtk_image_new_from_pixbuf(p_scaled);
         
-        // Isay sidebar (side) ke bilkul aakhir mein chipka do
+        // Isay sidebar ke aakhir (bottom) mein set karein
         gtk_box_pack_end(GTK_BOX(side), p_img, FALSE, FALSE, 20); 
         
+        // Memory management
         g_object_unref(p_pb);
         g_object_unref(p_scaled);
 
-        gtk_widget_show(p_img); 
-    
+        // Nayi widget ko show karne ka order
+        gtk_widget_show_all(p_img); 
+        printf("Panda logo successfully loaded!\n");
     } else {
-        g_warning("Panda image nahi mili! Path check karein.");
+        // Agar image load nahi hui toh terminal par ye error aayega
+        printf("CRITICAL ERROR: Panda image nahi mili. Wajah: %s\n", error->message);
+        g_error_free(error);
     }
+//--------------------------------------------------------------
     //--------------------------------------------
     gtk_box_pack_start(GTK_BOX(main_hbox), side, FALSE, FALSE, 0);
 
