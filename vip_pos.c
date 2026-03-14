@@ -392,34 +392,46 @@ void build_main_ui() {
 
 //--------------------------------------------------------------    
     //--------------------------------------------------------------    
-    // 1. Partition Line (Separator)
-    GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-    gtk_box_pack_start(GTK_BOX(side), sep, FALSE, FALSE, 15); 
+    // Sidebar box banayein
+    GtkWidget *side = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_style_context_add_class(gtk_widget_get_style_context(side), "sidebar");
+    
+    // 1. Sidebar ki width fix karein (Is se image ko jagah milegi)
+    gtk_widget_set_size_request(side, 200, -1); 
 
-    // 2. Panda Image Load (Ab path asan hai)
-    GError *error = NULL;
-    GdkPixbuf *p_pb = gdk_pixbuf_new_from_file("/home/syed-burhan/Downloads/panda_logo.png", &error);
+    const char *nav_items[] = {"🏠 Dashboard", "📜 My Orders", "👤 Profile", "⚙ Settings"};
+    const char *nav_ids[] = {"dash", "orders", "prof", "set"};
+    
+    for(int i=0; i<4; i++) {
+        GtkWidget *b = gtk_button_new_with_label(nav_items[i]);
+        gtk_style_context_add_class(gtk_widget_get_style_context(b), "nav-btn");
+        g_signal_connect(b, "clicked", G_CALLBACK(on_nav_click), (gpointer)nav_ids[i]);
+        gtk_box_pack_start(GTK_BOX(side), b, FALSE, FALSE, 0);
+    }
+
+    // Partition Line
+    GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_box_pack_start(GTK_BOX(side), sep, FALSE, FALSE, 10);
+
+    // 2. Panda Image (Path asan karke 'panda.png' use karein)
+    GdkPixbuf *p_pb = gdk_pixbuf_new_from_file("/home/syed-burhan/Downloads/panda.png", NULL);
 
     if (p_pb) {
-        // Sidebar ki width aksar 150-200 hoti hai, toh 120 safe size hai
-        GdkPixbuf *p_scaled = gdk_pixbuf_scale_simple(p_pb, 120, 120, GDK_INTERP_BILINEAR);
+        // Size thora mazeed chota rakhein taake fit aa jaye
+        GdkPixbuf *p_scaled = gdk_pixbuf_scale_simple(p_pb, 100, 100, GDK_INTERP_BILINEAR);
         GtkWidget *p_img = gtk_image_new_from_pixbuf(p_scaled);
         
-        // Isay sidebar ke aakhir (bottom) mein set karein
-        gtk_box_pack_end(GTK_BOX(side), p_img, FALSE, FALSE, 20); 
+        // 'pack_start' use karke dekhte hain agar 'pack_end' se gayab ho rahi hai
+        gtk_box_pack_start(GTK_BOX(side), p_img, FALSE, FALSE, 10); 
         
-        // Memory management
         g_object_unref(p_pb);
         g_object_unref(p_scaled);
-
-        // Nayi widget ko show karne ka order
-        gtk_widget_show_all(p_img); 
-        printf("Panda logo successfully loaded!\n");
-    } else {
-        // Agar image load nahi hui toh terminal par ye error aayega
-        printf("CRITICAL ERROR: Panda image nahi mili. Wajah: %s\n", error->message);
-        g_error_free(error);
+        gtk_widget_show(p_img);
     }
+
+    // Sidebar ko main layout mein daalna
+    //gtk_box_pack_start(GTK_BOX(main_hbox), side, FALSE, FALSE, 0);
+
 //--------------------------------------------------------------
     //--------------------------------------------
     gtk_box_pack_start(GTK_BOX(main_hbox), side, FALSE, FALSE, 0);
