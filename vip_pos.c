@@ -389,6 +389,30 @@ void build_main_ui() {
         g_signal_connect(b, "clicked", G_CALLBACK(on_nav_click), (gpointer)nav_ids[i]);
         gtk_box_pack_start(GTK_BOX(side), b, FALSE, FALSE, 0);
     }
+
+//--------------------------------------------------------------    
+    // 1. Partition Line (Separator)
+    GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_box_pack_start(GTK_BOX(side), sep, FALSE, FALSE, 15); 
+
+    // 2. Panda Image (Sahi Path aur Filename ke sath)
+    // Aapke terminal ke mutabiq: /home/syed-burhan/Downloads/Pasted image.png
+    GdkPixbuf *p_pb = gdk_pixbuf_new_from_file("/home/syed-burhan/Downloads/Pasted image.png", NULL);
+
+    if (p_pb) {
+        // Image ko sidebar ke liye chota (130x130) karein
+        GdkPixbuf *p_scaled = gdk_pixbuf_scale_simple(p_pb, 130, 130, GDK_INTERP_BILINEAR);
+        GtkWidget *p_img = gtk_image_new_from_pixbuf(p_scaled);
+        
+        // Isay sidebar (side) ke bilkul aakhir mein chipka do
+        gtk_box_pack_end(GTK_BOX(side), p_img, FALSE, FALSE, 20); 
+        
+        g_object_unref(p_pb);
+        g_object_unref(p_scaled);
+    } else {
+        g_warning("Panda image nahi mili! Path check karein.");
+    }
+    //--------------------------------------------
     gtk_box_pack_start(GTK_BOX(main_hbox), side, FALSE, FALSE, 0);
 
     main_stack = gtk_stack_new();
