@@ -409,6 +409,9 @@ void build_main_ui() {
         
         g_object_unref(p_pb);
         g_object_unref(p_scaled);
+
+        gtk_widget_show(p_img); 
+    
     } else {
         g_warning("Panda image nahi mili! Path check karein.");
     }
