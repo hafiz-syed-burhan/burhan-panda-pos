@@ -392,23 +392,6 @@ void build_main_ui() {
 
 //--------------------------------------------------------------    
     //--------------------------------------------------------------    
-    // Sidebar box banayein
-    GtkWidget *side = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-    gtk_style_context_add_class(gtk_widget_get_style_context(side), "sidebar");
-    
-    // 1. Sidebar ki width fix karein (Is se image ko jagah milegi)
-    gtk_widget_set_size_request(side, 200, -1); 
-
-    const char *nav_items[] = {"🏠 Dashboard", "📜 My Orders", "👤 Profile", "⚙ Settings"};
-    const char *nav_ids[] = {"dash", "orders", "prof", "set"};
-    
-    for(int i=0; i<4; i++) {
-        GtkWidget *b = gtk_button_new_with_label(nav_items[i]);
-        gtk_style_context_add_class(gtk_widget_get_style_context(b), "nav-btn");
-        g_signal_connect(b, "clicked", G_CALLBACK(on_nav_click), (gpointer)nav_ids[i]);
-        gtk_box_pack_start(GTK_BOX(side), b, FALSE, FALSE, 0);
-    }
-
     // Partition Line
     GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_box_pack_start(GTK_BOX(side), sep, FALSE, FALSE, 10);
