@@ -389,33 +389,6 @@ void build_main_ui() {
         g_signal_connect(b, "clicked", G_CALLBACK(on_nav_click), (gpointer)nav_ids[i]);
         gtk_box_pack_start(GTK_BOX(side), b, FALSE, FALSE, 0);
     }
-
-//--------------------------------------------------------------    
-    //--------------------------------------------------------------    
-    // Partition Line
-    GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-    gtk_box_pack_start(GTK_BOX(side), sep, FALSE, FALSE, 10);
-
-    // 2. Panda Image (Path asan karke 'panda.png' use karein)
-    GdkPixbuf *p_pb = gdk_pixbuf_new_from_file("/home/syed-burhan/Downloads/panda.png", NULL);
-
-    if (p_pb) {
-        // Size thora mazeed chota rakhein taake fit aa jaye
-        GdkPixbuf *p_scaled = gdk_pixbuf_scale_simple(p_pb, 100, 100, GDK_INTERP_BILINEAR);
-        GtkWidget *p_img = gtk_image_new_from_pixbuf(p_scaled);
-        
-        // 'pack_start' use karke dekhte hain agar 'pack_end' se gayab ho rahi hai
-        gtk_box_pack_start(GTK_BOX(side), p_img, FALSE, FALSE, 10); 
-        
-        g_object_unref(p_pb);
-        g_object_unref(p_scaled);
-        gtk_widget_show(p_img);
-    }
-
-    // Sidebar ko main layout mein daalna
-    //gtk_box_pack_start(GTK_BOX(main_hbox), side, FALSE, FALSE, 0);
-
-//--------------------------------------------------------------
     //--------------------------------------------
     gtk_box_pack_start(GTK_BOX(main_hbox), side, FALSE, FALSE, 0);
 
