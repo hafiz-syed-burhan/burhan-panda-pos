@@ -1,8 +1,5 @@
 // ============================================================
-//   BURHAN PANDA FOOD MANAGEMENT SYSTEM  v2.0 - FIXED
-//   Fixes: Cart compact size, responsive layout, dark mode,
-//          item names visible, category bar full visible
-//   All original features preserved exactly
+//   BURHAN PANDA FOOD MANAGEMENT SYSTEM  v2.0 - 
 // ============================================================
 #include <gtk/gtk.h>
 #include <stdio.h>
