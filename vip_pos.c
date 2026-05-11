@@ -1163,61 +1163,6 @@ void on_login_submit(GtkWidget *btn, gpointer data) {
     }
 }
 
-//GtkWidget *create_login_page() {
-    //GtkWidget *bg = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    //GtkWidget *center_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    //gtk_widget_set_valign(center_box, GTK_ALIGN_CENTER);
-    //gtk_widget_set_halign(center_box, GTK_ALIGN_CENTER);
-    //gtk_widget_set_vexpand(center_box, TRUE);
-    //gtk_widget_set_hexpand(center_box, TRUE);
-
-    //GtkWidget *card = gtk_box_new(GTK_ORIENTATION_VERTICAL, SC(14));
-    //gtk_style_context_add_class(gtk_widget_get_style_context(card), "login-card");
-    //gtk_widget_set_size_request(card, SC(400), -1);
-    //gtk_container_set_border_width(GTK_CONTAINER(card), SC(35));
-
-    //GtkWidget *logo = gtk_label_new("Burhan Panda");
-    //gtk_style_context_add_class(gtk_widget_get_style_context(logo), "login-title");
-    //GtkWidget *sub = gtk_label_new("Food Management System - v2.0");
-    //gtk_style_context_add_class(gtk_widget_get_style_context(sub), "login-sub");
-    //GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-
-    //GtkWidget *ul = gtk_label_new("Username:");
-    //gtk_widget_set_halign(ul, GTK_ALIGN_START);
-    //login_user_entry = gtk_entry_new();
-    //gtk_style_context_add_class(gtk_widget_get_style_context(login_user_entry), "login-entry");
-    //gtk_entry_set_placeholder_text(GTK_ENTRY(login_user_entry), "Enter username");
-
-    //GtkWidget *pl = gtk_label_new("Password:");
-    //gtk_widget_set_halign(pl, GTK_ALIGN_START);
-    //login_pass_entry = gtk_entry_new();
-    //gtk_style_context_add_class(gtk_widget_get_style_context(login_pass_entry), "login-entry");
-    //gtk_entry_set_placeholder_text(GTK_ENTRY(login_pass_entry), "Enter password");
-    //gtk_entry_set_visibility(GTK_ENTRY(login_pass_entry), FALSE);
-    //g_signal_connect(login_pass_entry, "activate", G_CALLBACK(on_login_submit), NULL);
-
-    //GtkWidget *lbtn = gtk_button_new_with_label("Login");
-    //gtk_style_context_add_class(gtk_widget_get_style_context(lbtn), "login-btn");
-    //gtk_widget_set_size_request(lbtn, -1, 44);
-    //g_signal_connect(lbtn, "clicked", G_CALLBACK(on_login_submit), NULL);
-
-    //GtkWidget *hint = gtk_label_new("Default: admin / 1234");
-    //gtk_style_context_add_class(gtk_widget_get_style_context(hint), "login-hint");
-    //gtk_widget_set_halign(hint, GTK_ALIGN_CENTER);
-
-    //gtk_box_pack_start(GTK_BOX(card), logo,            FALSE, FALSE, 0);
-    //gtk_box_pack_start(GTK_BOX(card), sub,             FALSE, FALSE, 0);
-    //gtk_box_pack_start(GTK_BOX(card), sep,             FALSE, FALSE, SC(8));
-    //gtk_box_pack_start(GTK_BOX(card), ul,              FALSE, FALSE, 0);
-    //gtk_box_pack_start(GTK_BOX(card), login_user_entry,FALSE, FALSE, 0);
-    //gtk_box_pack_start(GTK_BOX(card), pl,              FALSE, FALSE, SC(6));
-    //gtk_box_pack_start(GTK_BOX(card), login_pass_entry,FALSE, FALSE, 0);
-    //gtk_box_pack_start(GTK_BOX(card), lbtn,            FALSE, FALSE, SC(10));
-    //gtk_box_pack_start(GTK_BOX(card), hint,            FALSE, FALSE, 0);
-    //gtk_box_pack_start(GTK_BOX(center_box), card, FALSE, FALSE, 0);
-    //gtk_box_pack_start(GTK_BOX(bg), center_box, TRUE, TRUE, 0);
-    //return bg;
-//}
 
 GtkWidget *create_login_page() {
     GtkWidget *bg = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
