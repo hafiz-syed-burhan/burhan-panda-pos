@@ -1603,8 +1603,6 @@ GtkWidget *build_app_ui() {
     gtk_container_set_border_width(GTK_CONTAINER(side), SC(8));
 
     const char *nav_items[] = {"🏠  Dashboard", "📋  Orders", "📊  Analytics", "👤  Profile", "⚙️  Settings"};
-    //const char *nav_items[] = {"Dashboard", "Orders", "Analytics", "Profile", "Settings"};
-   
     const char *nav_ids[]   = {"dash", "orders", "analytics", "prof", "set"};
     for (int i = 0; i < 5; i++) {
         GtkWidget *b = gtk_button_new_with_label(nav_items[i]);
@@ -1638,7 +1636,7 @@ GtkWidget *build_app_ui() {
     gtk_container_set_border_width(GTK_CONTAINER(cart), SC(10));
 
     // Cart title
-    GtkWidget *basket_label = gtk_label_new("Your Basket");
+    GtkWidget *basket_label = gtk_label_new("🛒  Your Basket");
     gtk_style_context_add_class(gtk_widget_get_style_context(basket_label), "cart-title");
     gtk_widget_set_halign(basket_label, GTK_ALIGN_START);
 
