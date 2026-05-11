@@ -187,7 +187,8 @@ void load_css() {
     const char *PINK_DRK = "#B01055";
     const char *GREEN    = "#27AE60";
     const char *RED      = "#E74C3C";
-    const char *HDR_BG   = dark_mode_on ? "#1A0A12" : "#E21B70";
+    //const char *HDR_BG   = dark_mode_on ? "#1A0A12" : "#E21B70";
+    const char *HDR_BG   = "#E21B70";
 
     // Font sizes in pt — scaled per screen resolution
     // At UI_SCALE=1.0 (1366px laptop): normal=10pt, large=12pt, xlarge=15pt
@@ -314,19 +315,8 @@ void load_css() {
     A("label.discount-lbl { color: %s; font-size: %dpt; font-weight: bold; }\n", GREEN, pt_normal);
     A("label.hint-lbl { color: %s; font-size: %dpt; }\n", TEXT2, pt_small);
 
-    // === CHECKOUT BUTTON ===
-    //A("button.btn-checkout {\n"
-      //"  background-color: %s;\n"
-      //"  border: none;\n"
-      //"  border-radius: %dpx;\n"
-      //"  padding: %dpx;\n"
-      //"  outline: none;\n"
-      //"}\n", PINK, SC(10), SC(11));
-    //A("button.btn-checkout label { color: #FFFFFF; font-size: %dpt; font-weight: bold; }\n", pt_large);
-    //A("button.btn-checkout:hover { background-color: %s; }\n", PINK_DRK);
-
-
-    A("button.btn-checkout {\n"
+    // === CHECKOUT BUTTON === 
+A("button.btn-checkout {\n"
   "  background-color: %s;\n"
   "  border: none;\n"
   "  border-radius: %dpx;\n"
@@ -345,9 +335,10 @@ A("button.btn-checkout:hover { background-color: %s; background-image: none; }\n
       "  border-radius: %dpx;\n"
       "  padding: %dpx %dpx;\n"
       "  outline: none;\n"
+      "  background-image: none;\n"
       "}\n", GREEN, SC(8), SC(5), SC(10));
     A("button.btn-success label { color: #FFFFFF; font-size: %dpt; font-weight: bold; }\n", pt_normal);
-
+    A("button.btn-success * { color: #FFFFFF; }\n");
     // === DANGER BUTTON ===
     A("button.btn-danger {\n"
       "  background-color: %s;\n"
@@ -355,9 +346,11 @@ A("button.btn-checkout:hover { background-color: %s; background-image: none; }\n
       "  border-radius: %dpx;\n"
       "  padding: %dpx %dpx;\n"
       "  outline: none;\n"
+      "  background-image: none;\n"
       "}\n", RED, SC(8), SC(5), SC(10));
     A("button.btn-danger label { color: #FFFFFF; font-size: %dpt; font-weight: bold; }\n", pt_normal);
-
+    A("button.btn-danger * { color: #FFFFFF; }\n");
+    
     // === NOTIFICATION ===
     A(".notification-bar { border-radius: %dpx; padding: %dpx %dpx; }\n",
       SC(8), SC(7), SC(14));
