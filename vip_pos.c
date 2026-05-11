@@ -1362,12 +1362,28 @@ GtkWidget *create_login_page() {
     g_signal_connect(login_pass_entry, "activate",
         G_CALLBACK(on_login_submit), NULL);
 
+    //
     // Login button — PINK
-    GtkWidget *lbtn = gtk_button_new_with_label("Login");
-    gtk_style_context_add_class(
-        gtk_widget_get_style_context(lbtn), "login-btn");
-    gtk_widget_set_size_request(lbtn, SC(340), SC(48));
-    g_signal_connect(lbtn, "clicked", G_CALLBACK(on_login_submit), NULL);
+GtkWidget *lbtn = gtk_button_new_with_label("Login");
+gtk_style_context_add_class(
+    gtk_widget_get_style_context(lbtn), "login-btn");
+gtk_widget_set_size_request(lbtn, SC(340), SC(48));
+
+// === PINK FORCE FIX ===
+GtkCssProvider *btn_css = gtk_css_provider_new();
+gtk_css_provider_load_from_data(btn_css,
+    "button { background-color: #E21B70 !important;"
+    " background-image: none !important;"
+    " color: white !important; }",
+    -1, NULL);
+gtk_style_context_add_provider(
+    gtk_widget_get_style_context(lbtn),
+    GTK_STYLE_PROVIDER(btn_css),
+    GTK_STYLE_PROVIDER_PRIORITY_USER + 1);
+g_object_unref(btn_css);
+// === END ===
+
+g_signal_connect(lbtn, "clicked", G_CALLBACK(on_login_submit), NULL);
 
     // Hint
     GtkWidget *hint = gtk_label_new(NULL);
