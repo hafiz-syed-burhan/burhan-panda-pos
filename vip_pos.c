@@ -1163,59 +1163,234 @@ void on_login_submit(GtkWidget *btn, gpointer data) {
     }
 }
 
+//GtkWidget *create_login_page() {
+    //GtkWidget *bg = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    //GtkWidget *center_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    //gtk_widget_set_valign(center_box, GTK_ALIGN_CENTER);
+    //gtk_widget_set_halign(center_box, GTK_ALIGN_CENTER);
+    //gtk_widget_set_vexpand(center_box, TRUE);
+    //gtk_widget_set_hexpand(center_box, TRUE);
+
+    //GtkWidget *card = gtk_box_new(GTK_ORIENTATION_VERTICAL, SC(14));
+    //gtk_style_context_add_class(gtk_widget_get_style_context(card), "login-card");
+    //gtk_widget_set_size_request(card, SC(400), -1);
+    //gtk_container_set_border_width(GTK_CONTAINER(card), SC(35));
+
+    //GtkWidget *logo = gtk_label_new("Burhan Panda");
+    //gtk_style_context_add_class(gtk_widget_get_style_context(logo), "login-title");
+    //GtkWidget *sub = gtk_label_new("Food Management System - v2.0");
+    //gtk_style_context_add_class(gtk_widget_get_style_context(sub), "login-sub");
+    //GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+
+    //GtkWidget *ul = gtk_label_new("Username:");
+    //gtk_widget_set_halign(ul, GTK_ALIGN_START);
+    //login_user_entry = gtk_entry_new();
+    //gtk_style_context_add_class(gtk_widget_get_style_context(login_user_entry), "login-entry");
+    //gtk_entry_set_placeholder_text(GTK_ENTRY(login_user_entry), "Enter username");
+
+    //GtkWidget *pl = gtk_label_new("Password:");
+    //gtk_widget_set_halign(pl, GTK_ALIGN_START);
+    //login_pass_entry = gtk_entry_new();
+    //gtk_style_context_add_class(gtk_widget_get_style_context(login_pass_entry), "login-entry");
+    //gtk_entry_set_placeholder_text(GTK_ENTRY(login_pass_entry), "Enter password");
+    //gtk_entry_set_visibility(GTK_ENTRY(login_pass_entry), FALSE);
+    //g_signal_connect(login_pass_entry, "activate", G_CALLBACK(on_login_submit), NULL);
+
+    //GtkWidget *lbtn = gtk_button_new_with_label("Login");
+    //gtk_style_context_add_class(gtk_widget_get_style_context(lbtn), "login-btn");
+    //gtk_widget_set_size_request(lbtn, -1, 44);
+    //g_signal_connect(lbtn, "clicked", G_CALLBACK(on_login_submit), NULL);
+
+    //GtkWidget *hint = gtk_label_new("Default: admin / 1234");
+    //gtk_style_context_add_class(gtk_widget_get_style_context(hint), "login-hint");
+    //gtk_widget_set_halign(hint, GTK_ALIGN_CENTER);
+
+    //gtk_box_pack_start(GTK_BOX(card), logo,            FALSE, FALSE, 0);
+    //gtk_box_pack_start(GTK_BOX(card), sub,             FALSE, FALSE, 0);
+    //gtk_box_pack_start(GTK_BOX(card), sep,             FALSE, FALSE, SC(8));
+    //gtk_box_pack_start(GTK_BOX(card), ul,              FALSE, FALSE, 0);
+    //gtk_box_pack_start(GTK_BOX(card), login_user_entry,FALSE, FALSE, 0);
+    //gtk_box_pack_start(GTK_BOX(card), pl,              FALSE, FALSE, SC(6));
+    //gtk_box_pack_start(GTK_BOX(card), login_pass_entry,FALSE, FALSE, 0);
+    //gtk_box_pack_start(GTK_BOX(card), lbtn,            FALSE, FALSE, SC(10));
+    //gtk_box_pack_start(GTK_BOX(card), hint,            FALSE, FALSE, 0);
+    //gtk_box_pack_start(GTK_BOX(center_box), card, FALSE, FALSE, 0);
+    //gtk_box_pack_start(GTK_BOX(bg), center_box, TRUE, TRUE, 0);
+    //return bg;
+//}
 GtkWidget *create_login_page() {
-    GtkWidget *bg = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    GtkWidget *center_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    // Main background
+    GtkWidget *bg = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+
+    // === LEFT SIDE — Pink branding panel ===
+    GtkWidget *left_panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, SC(20));
+    gtk_widget_set_size_request(left_panel, SC(380), -1);
+    gtk_widget_set_vexpand(left_panel, TRUE);
+    gtk_widget_set_valign(left_panel, GTK_ALIGN_CENTER);
+    gtk_container_set_border_width(GTK_CONTAINER(left_panel), SC(50));
+
+    // Left panel pink background CSS
+    GtkCssProvider *left_css = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(left_css,
+        "box.left-panel { background-color: #E21B70; }", -1, NULL);
+    gtk_style_context_add_provider(
+        gtk_widget_get_style_context(left_panel),
+        GTK_STYLE_PROVIDER(left_css),
+        GTK_STYLE_PROVIDER_PRIORITY_USER);
+    gtk_style_context_add_class(
+        gtk_widget_get_style_context(left_panel), "left-panel");
+    g_object_unref(left_css);
+
+    // Panda emoji big
+    GtkWidget *panda_lbl = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(panda_lbl),
+        "<span size='72000'>🐼</span>");
+    gtk_widget_set_halign(panda_lbl, GTK_ALIGN_CENTER);
+
+    // Brand name
+    GtkWidget *brand = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(brand),
+        "<span color='#FFFFFF' size='28000' weight='bold'>Burhan Panda</span>");
+    gtk_widget_set_halign(brand, GTK_ALIGN_CENTER);
+
+    // Tagline
+    GtkWidget *tagline = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(tagline),
+        "<span color='#FFB3D1' size='13000'>Food Management System v2.0</span>");
+    gtk_widget_set_halign(tagline, GTK_ALIGN_CENTER);
+    gtk_label_set_line_wrap(GTK_LABEL(tagline), TRUE);
+    gtk_label_set_justify(GTK_LABEL(tagline), GTK_JUSTIFY_CENTER);
+
+    // Separator line
+    GtkWidget *sep_white = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+    GtkCssProvider *sep_css = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(sep_css,
+        "separator { background-color: rgba(255,255,255,0.3); min-height: 1px; }",
+        -1, NULL);
+    gtk_style_context_add_provider(
+        gtk_widget_get_style_context(sep_white),
+        GTK_STYLE_PROVIDER(sep_css),
+        GTK_STYLE_PROVIDER_PRIORITY_USER);
+    g_object_unref(sep_css);
+
+    // Features list
+    GtkWidget *feat1 = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(feat1),
+        "<span color='#FFFFFF' size='11000'>✓  Smart Cart with Coupon System</span>");
+    gtk_widget_set_halign(feat1, GTK_ALIGN_START);
+
+    GtkWidget *feat2 = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(feat2),
+        "<span color='#FFFFFF' size='11000'>✓  Real-time Order Tracking</span>");
+    gtk_widget_set_halign(feat2, GTK_ALIGN_START);
+
+    GtkWidget *feat3 = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(feat3),
+        "<span color='#FFFFFF' size='11000'>✓  Analytics Dashboard</span>");
+    gtk_widget_set_halign(feat3, GTK_ALIGN_START);
+
+    GtkWidget *feat4 = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(feat4),
+        "<span color='#FFFFFF' size='11000'>✓  Dark Mode Support</span>");
+    gtk_widget_set_halign(feat4, GTK_ALIGN_START);
+
+    gtk_box_pack_start(GTK_BOX(left_panel), panda_lbl, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(left_panel), brand,     FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(left_panel), tagline,   FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(left_panel), sep_white, FALSE, FALSE, SC(10));
+    gtk_box_pack_start(GTK_BOX(left_panel), feat1,     FALSE, FALSE, SC(4));
+    gtk_box_pack_start(GTK_BOX(left_panel), feat2,     FALSE, FALSE, SC(4));
+    gtk_box_pack_start(GTK_BOX(left_panel), feat3,     FALSE, FALSE, SC(4));
+    gtk_box_pack_start(GTK_BOX(left_panel), feat4,     FALSE, FALSE, SC(4));
+
+    // === RIGHT SIDE — Login form ===
+    GtkWidget *right_panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_hexpand(right_panel, TRUE);
+    gtk_widget_set_vexpand(right_panel, TRUE);
+
+    // Center the form vertically
+    GtkWidget *center_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, SC(16));
     gtk_widget_set_valign(center_box, GTK_ALIGN_CENTER);
     gtk_widget_set_halign(center_box, GTK_ALIGN_CENTER);
     gtk_widget_set_vexpand(center_box, TRUE);
     gtk_widget_set_hexpand(center_box, TRUE);
+    gtk_container_set_border_width(GTK_CONTAINER(center_box), SC(50));
 
-    GtkWidget *card = gtk_box_new(GTK_ORIENTATION_VERTICAL, SC(14));
-    gtk_style_context_add_class(gtk_widget_get_style_context(card), "login-card");
-    gtk_widget_set_size_request(card, SC(400), -1);
-    gtk_container_set_border_width(GTK_CONTAINER(card), SC(35));
+    // Welcome back text
+    GtkWidget *welcome = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(welcome),
+        "<span size='22000' weight='bold'>Welcome Back!</span>");
+    gtk_widget_set_halign(welcome, GTK_ALIGN_START);
 
-    GtkWidget *logo = gtk_label_new("Burhan Panda");
-    gtk_style_context_add_class(gtk_widget_get_style_context(logo), "login-title");
-    GtkWidget *sub = gtk_label_new("Food Management System - v2.0");
-    gtk_style_context_add_class(gtk_widget_get_style_context(sub), "login-sub");
-    GtkWidget *sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+    GtkWidget *welcome_sub = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(welcome_sub),
+        "<span size='11000' color='#888888'>Sign in to your account</span>");
+    gtk_widget_set_halign(welcome_sub, GTK_ALIGN_START);
 
-    GtkWidget *ul = gtk_label_new("Username:");
+    // Spacer
+    GtkWidget *sp1 = gtk_label_new("");
+    gtk_widget_set_size_request(sp1, -1, SC(10));
+
+    // Username label + entry
+    GtkWidget *ul = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(ul),
+        "<span size='10000' weight='bold'>USERNAME</span>");
     gtk_widget_set_halign(ul, GTK_ALIGN_START);
+
     login_user_entry = gtk_entry_new();
-    gtk_style_context_add_class(gtk_widget_get_style_context(login_user_entry), "login-entry");
-    gtk_entry_set_placeholder_text(GTK_ENTRY(login_user_entry), "Enter username");
+    gtk_style_context_add_class(
+        gtk_widget_get_style_context(login_user_entry), "login-entry");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(login_user_entry), "Enter your username");
+    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(login_user_entry),
+        GTK_ENTRY_ICON_PRIMARY, "avatar-default-symbolic");
+    gtk_widget_set_size_request(login_user_entry, SC(340), SC(44));
 
-    GtkWidget *pl = gtk_label_new("Password:");
+    // Password label + entry
+    GtkWidget *pl = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(pl),
+        "<span size='10000' weight='bold'>PASSWORD</span>");
     gtk_widget_set_halign(pl, GTK_ALIGN_START);
-    login_pass_entry = gtk_entry_new();
-    gtk_style_context_add_class(gtk_widget_get_style_context(login_pass_entry), "login-entry");
-    gtk_entry_set_placeholder_text(GTK_ENTRY(login_pass_entry), "Enter password");
-    gtk_entry_set_visibility(GTK_ENTRY(login_pass_entry), FALSE);
-    g_signal_connect(login_pass_entry, "activate", G_CALLBACK(on_login_submit), NULL);
 
+    login_pass_entry = gtk_entry_new();
+    gtk_style_context_add_class(
+        gtk_widget_get_style_context(login_pass_entry), "login-entry");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(login_pass_entry), "Enter your password");
+    gtk_entry_set_visibility(GTK_ENTRY(login_pass_entry), FALSE);
+    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(login_pass_entry),
+        GTK_ENTRY_ICON_PRIMARY, "dialog-password-symbolic");
+    gtk_widget_set_size_request(login_pass_entry, SC(340), SC(44));
+    g_signal_connect(login_pass_entry, "activate",
+        G_CALLBACK(on_login_submit), NULL);
+
+    // Login button — PINK
     GtkWidget *lbtn = gtk_button_new_with_label("Login");
-    gtk_style_context_add_class(gtk_widget_get_style_context(lbtn), "login-btn");
-    gtk_widget_set_size_request(lbtn, -1, 44);
+    gtk_style_context_add_class(
+        gtk_widget_get_style_context(lbtn), "login-btn");
+    gtk_widget_set_size_request(lbtn, SC(340), SC(48));
     g_signal_connect(lbtn, "clicked", G_CALLBACK(on_login_submit), NULL);
 
-    GtkWidget *hint = gtk_label_new("Default: admin / 1234");
-    gtk_style_context_add_class(gtk_widget_get_style_context(hint), "login-hint");
+    // Hint
+    GtkWidget *hint = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(hint),
+        "<span size='9000' color='#AAAAAA'>Default credentials: admin / 1234</span>");
     gtk_widget_set_halign(hint, GTK_ALIGN_CENTER);
 
-    gtk_box_pack_start(GTK_BOX(card), logo,            FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(card), sub,             FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(card), sep,             FALSE, FALSE, SC(8));
-    gtk_box_pack_start(GTK_BOX(card), ul,              FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(card), login_user_entry,FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(card), pl,              FALSE, FALSE, SC(6));
-    gtk_box_pack_start(GTK_BOX(card), login_pass_entry,FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(card), lbtn,            FALSE, FALSE, SC(10));
-    gtk_box_pack_start(GTK_BOX(card), hint,            FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(center_box), card, FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(bg), center_box, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(center_box), welcome,         FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(center_box), welcome_sub,     FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(center_box), sp1,             FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(center_box), ul,              FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(center_box), login_user_entry,FALSE, FALSE, SC(6));
+    gtk_box_pack_start(GTK_BOX(center_box), pl,              FALSE, FALSE, SC(8));
+    gtk_box_pack_start(GTK_BOX(center_box), login_pass_entry,FALSE, FALSE, SC(6));
+    gtk_box_pack_start(GTK_BOX(center_box), lbtn,            FALSE, FALSE, SC(16));
+    gtk_box_pack_start(GTK_BOX(center_box), hint,            FALSE, FALSE, 0);
+
+    gtk_box_pack_start(GTK_BOX(right_panel), center_box, TRUE, TRUE, 0);
+
+    // Pack both panels
+    gtk_box_pack_start(GTK_BOX(bg), left_panel,  FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(bg), right_panel, TRUE,  TRUE,  0);
+
     return bg;
 }
 
