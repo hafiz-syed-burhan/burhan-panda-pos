@@ -1227,7 +1227,7 @@ GtkWidget *create_login_page() {
     gtk_widget_set_size_request(left_panel, SC(380), -1);
     gtk_widget_set_vexpand(left_panel, TRUE);
     gtk_widget_set_valign(left_panel, GTK_ALIGN_FILL);
-    gtk_container_set_border_width(GTK_CONTAINER(left_panel), SC(50));
+    gtk_container_set_border_width(GTK_CONTAINER(left_panel), SC(20));
 
     GtkCssProvider *left_css = gtk_css_provider_new();
     gtk_css_provider_load_from_data(left_css,
