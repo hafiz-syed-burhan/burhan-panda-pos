@@ -1602,7 +1602,9 @@ GtkWidget *build_app_ui() {
     gtk_widget_set_size_request(side, SC(145), -1);
     gtk_container_set_border_width(GTK_CONTAINER(side), SC(8));
 
-    const char *nav_items[] = {"Dashboard", "Orders", "Analytics", "Profile", "Settings"};
+    const char *nav_items[] = {"🏠  Dashboard", "📋  Orders", "📊  Analytics", "👤  Profile", "⚙️  Settings"};
+    //const char *nav_items[] = {"Dashboard", "Orders", "Analytics", "Profile", "Settings"};
+   
     const char *nav_ids[]   = {"dash", "orders", "analytics", "prof", "set"};
     for (int i = 0; i < 5; i++) {
         GtkWidget *b = gtk_button_new_with_label(nav_items[i]);
