@@ -388,6 +388,7 @@ void load_css() {
       "  outline: none;\n"
       "}\n", PINK, SC(12), SC(11));
     A("button.login-btn label { color: #FFFFFF; font-size: %dpt; font-weight: bold; }\n", pt_large);
+    A("button.login-btn * { color: #FFFFFF; }\n");
     A("button.login-btn:hover { background-color: %s; }\n", PINK_DRK);
 
     // === PAGE TITLES ===
@@ -1191,6 +1192,7 @@ GtkWidget *create_login_page() {
 
     GtkWidget *lbtn = gtk_button_new_with_label("Login");
     gtk_style_context_add_class(gtk_widget_get_style_context(lbtn), "login-btn");
+    gtk_widget_set_size_request(lbtn, -1, 44);
     g_signal_connect(lbtn, "clicked", G_CALLBACK(on_login_submit), NULL);
 
     GtkWidget *hint = gtk_label_new("Default: admin / 1234");
@@ -1549,7 +1551,7 @@ GtkWidget *build_app_ui() {
     GtkWidget *header = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SC(12));
     gtk_style_context_add_class(gtk_widget_get_style_context(header), "top-header");
 
-    GtkWidget *logo = gtk_label_new("Burhan Panda");
+    GtkWidget *logo = gtk_label_new("Burhan Panda  🐼");
     gtk_style_context_add_class(gtk_widget_get_style_context(logo), "logo-text");
     gtk_widget_set_halign(logo, GTK_ALIGN_START);
 
@@ -1636,7 +1638,7 @@ GtkWidget *build_app_ui() {
     gtk_container_set_border_width(GTK_CONTAINER(cart), SC(10));
 
     // Cart title
-    GtkWidget *basket_label = gtk_label_new("🛒  Your Basket");
+    GtkWidget *basket_label = gtk_label_new("Your Basket  🛒");
     gtk_style_context_add_class(gtk_widget_get_style_context(basket_label), "cart-title");
     gtk_widget_set_halign(basket_label, GTK_ALIGN_START);
 
