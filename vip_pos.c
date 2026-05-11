@@ -1557,7 +1557,7 @@ GtkWidget *build_app_ui() {
     GtkWidget *header = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SC(12));
     gtk_style_context_add_class(gtk_widget_get_style_context(header), "top-header");
 
-    GtkWidget *logo = gtk_label_new("Burhan Panda  🐼");
+    GtkWidget *logo = gtk_label_new("Burhan Panda Pos  🐼");
     gtk_style_context_add_class(gtk_widget_get_style_context(logo), "logo-text");
     gtk_widget_set_halign(logo, GTK_ALIGN_START);
 
