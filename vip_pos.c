@@ -315,16 +315,29 @@ void load_css() {
     A("label.hint-lbl { color: %s; font-size: %dpt; }\n", TEXT2, pt_small);
 
     // === CHECKOUT BUTTON ===
-    A("button.btn-checkout {\n"
-      "  background-color: %s;\n"
-      "  border: none;\n"
-      "  border-radius: %dpx;\n"
-      "  padding: %dpx;\n"
-      "  outline: none;\n"
-      "}\n", PINK, SC(10), SC(11));
-    A("button.btn-checkout label { color: #FFFFFF; font-size: %dpt; font-weight: bold; }\n", pt_large);
-    A("button.btn-checkout:hover { background-color: %s; }\n", PINK_DRK);
+    //A("button.btn-checkout {\n"
+      //"  background-color: %s;\n"
+      //"  border: none;\n"
+      //"  border-radius: %dpx;\n"
+      //"  padding: %dpx;\n"
+      //"  outline: none;\n"
+      //"}\n", PINK, SC(10), SC(11));
+    //A("button.btn-checkout label { color: #FFFFFF; font-size: %dpt; font-weight: bold; }\n", pt_large);
+    //A("button.btn-checkout:hover { background-color: %s; }\n", PINK_DRK);
 
+
+    A("button.btn-checkout {\n"
+  "  background-color: %s;\n"
+  "  border: none;\n"
+  "  border-radius: %dpx;\n"
+  "  padding: %dpx;\n"
+  "  outline: none;\n"
+  "  background-image: none;\n"
+  "}\n", PINK, SC(10), SC(11));
+A("button.btn-checkout label { color: #FFFFFF; font-size: %dpt; font-weight: bold; }\n", pt_large);
+A("button.btn-checkout * { color: #FFFFFF; }\n");
+A("button.btn-checkout:hover { background-color: %s; background-image: none; }\n", PINK_DRK);
+    
     // === SUCCESS BUTTON ===
     A("button.btn-success {\n"
       "  background-color: %s;\n"
