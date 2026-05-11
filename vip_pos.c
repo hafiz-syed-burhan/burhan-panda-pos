@@ -1218,18 +1218,17 @@ void on_login_submit(GtkWidget *btn, gpointer data) {
     //gtk_box_pack_start(GTK_BOX(bg), center_box, TRUE, TRUE, 0);
     //return bg;
 //}
+
 GtkWidget *create_login_page() {
-    // Main background
     GtkWidget *bg = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
-    // === LEFT SIDE — Pink branding panel ===
+    // === LEFT PANEL — Pink ===
     GtkWidget *left_panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, SC(20));
     gtk_widget_set_size_request(left_panel, SC(380), -1);
     gtk_widget_set_vexpand(left_panel, TRUE);
-    gtk_widget_set_valign(left_panel, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(left_panel, GTK_ALIGN_FILL);
     gtk_container_set_border_width(GTK_CONTAINER(left_panel), SC(50));
 
-    // Left panel pink background CSS
     GtkCssProvider *left_css = gtk_css_provider_new();
     gtk_css_provider_load_from_data(left_css,
         "box.left-panel { background-color: #E21B70; }", -1, NULL);
@@ -1241,19 +1240,15 @@ GtkWidget *create_login_page() {
         gtk_widget_get_style_context(left_panel), "left-panel");
     g_object_unref(left_css);
 
-    // Panda emoji big
     GtkWidget *panda_lbl = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(panda_lbl),
-        "<span size='72000'>🐼</span>");
+    gtk_label_set_markup(GTK_LABEL(panda_lbl), "<span size='72000'>🐼</span>");
     gtk_widget_set_halign(panda_lbl, GTK_ALIGN_CENTER);
 
-    // Brand name
     GtkWidget *brand = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(brand),
         "<span color='#FFFFFF' size='28000' weight='bold'>Burhan Panda</span>");
     gtk_widget_set_halign(brand, GTK_ALIGN_CENTER);
 
-    // Tagline
     GtkWidget *tagline = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(tagline),
         "<span color='#FFB3D1' size='13000'>Food Management System v2.0</span>");
@@ -1261,7 +1256,6 @@ GtkWidget *create_login_page() {
     gtk_label_set_line_wrap(GTK_LABEL(tagline), TRUE);
     gtk_label_set_justify(GTK_LABEL(tagline), GTK_JUSTIFY_CENTER);
 
-    // Separator line
     GtkWidget *sep_white = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     GtkCssProvider *sep_css = gtk_css_provider_new();
     gtk_css_provider_load_from_data(sep_css,
@@ -1273,7 +1267,6 @@ GtkWidget *create_login_page() {
         GTK_STYLE_PROVIDER_PRIORITY_USER);
     g_object_unref(sep_css);
 
-    // Features list
     GtkWidget *feat1 = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(feat1),
         "<span color='#FFFFFF' size='11000'>✓  Smart Cart with Coupon System</span>");
@@ -1303,12 +1296,11 @@ GtkWidget *create_login_page() {
     gtk_box_pack_start(GTK_BOX(left_panel), feat3,     FALSE, FALSE, SC(4));
     gtk_box_pack_start(GTK_BOX(left_panel), feat4,     FALSE, FALSE, SC(4));
 
-    // === RIGHT SIDE — Login form ===
+    // === RIGHT PANEL — Form ===
     GtkWidget *right_panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_hexpand(right_panel, TRUE);
     gtk_widget_set_vexpand(right_panel, TRUE);
 
-    // Center the form vertically
     GtkWidget *center_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, SC(16));
     gtk_widget_set_valign(center_box, GTK_ALIGN_CENTER);
     gtk_widget_set_halign(center_box, GTK_ALIGN_CENTER);
@@ -1316,7 +1308,6 @@ GtkWidget *create_login_page() {
     gtk_widget_set_hexpand(center_box, TRUE);
     gtk_container_set_border_width(GTK_CONTAINER(center_box), SC(50));
 
-    // Welcome back text
     GtkWidget *welcome = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(welcome),
         "<span size='22000' weight='bold'>Welcome Back!</span>");
@@ -1327,11 +1318,9 @@ GtkWidget *create_login_page() {
         "<span size='11000' color='#888888'>Sign in to your account</span>");
     gtk_widget_set_halign(welcome_sub, GTK_ALIGN_START);
 
-    // Spacer
     GtkWidget *sp1 = gtk_label_new("");
     gtk_widget_set_size_request(sp1, -1, SC(10));
 
-    // Username label + entry
     GtkWidget *ul = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(ul),
         "<span size='10000' weight='bold'>USERNAME</span>");
@@ -1345,7 +1334,6 @@ GtkWidget *create_login_page() {
         GTK_ENTRY_ICON_PRIMARY, "avatar-default-symbolic");
     gtk_widget_set_size_request(login_user_entry, SC(340), SC(44));
 
-    // Password label + entry
     GtkWidget *pl = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(pl),
         "<span size='10000' weight='bold'>PASSWORD</span>");
@@ -1362,53 +1350,69 @@ GtkWidget *create_login_page() {
     g_signal_connect(login_pass_entry, "activate",
         G_CALLBACK(on_login_submit), NULL);
 
-    //
-    // Login button — PINK
-GtkWidget *lbtn = gtk_button_new_with_label("Login");
-gtk_style_context_add_class(
-    gtk_widget_get_style_context(lbtn), "login-btn");
-gtk_widget_set_size_request(lbtn, SC(340), SC(48));
+    // === LOGIN BUTTON — GUARANTEED PINK ===
+    GtkWidget *lbtn = gtk_button_new();
+    gtk_widget_set_size_request(lbtn, SC(340), SC(48));
 
-// === PINK FORCE FIX ===
-GtkCssProvider *btn_css = gtk_css_provider_new();
-gtk_css_provider_load_from_data(btn_css,
-    "button { background-color: #E21B70 !important;"
-    " background-image: none !important;"
-    " color: white !important; }",
-    -1, NULL);
-gtk_style_context_add_provider(
-    gtk_widget_get_style_context(lbtn),
-    GTK_STYLE_PROVIDER(btn_css),
-    GTK_STYLE_PROVIDER_PRIORITY_USER + 1);
-g_object_unref(btn_css);
-// === END ===
+    // Button ke andar label manually banao
+    GtkWidget *btn_label = gtk_label_new("Login");
+    GtkCssProvider *lbl_css = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(lbl_css,
+        "label { color: #FFFFFF; font-weight: bold; font-size: 13pt; }",
+        -1, NULL);
+    gtk_style_context_add_provider(
+        gtk_widget_get_style_context(btn_label),
+        GTK_STYLE_PROVIDER(lbl_css),
+        GTK_STYLE_PROVIDER_PRIORITY_USER + 1);
+    g_object_unref(lbl_css);
+    gtk_container_add(GTK_CONTAINER(lbtn), btn_label);
 
-g_signal_connect(lbtn, "clicked", G_CALLBACK(on_login_submit), NULL);
+    // Button pink CSS — direct provider on widget
+    GtkCssProvider *btn_css = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(btn_css,
+        "button {"
+        "  background-color: #E21B70;"
+        "  background-image: none;"
+        "  border: none;"
+        "  border-radius: 10px;"
+        "  outline: none;"
+        "}"
+        "button:hover {"
+        "  background-color: #B01055;"
+        "  background-image: none;"
+        "}",
+        -1, NULL);
+    gtk_style_context_add_provider(
+        gtk_widget_get_style_context(lbtn),
+        GTK_STYLE_PROVIDER(btn_css),
+        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    g_object_unref(btn_css);
+    // === END LOGIN BUTTON ===
 
-    // Hint
+    g_signal_connect(lbtn, "clicked", G_CALLBACK(on_login_submit), NULL);
+
     GtkWidget *hint = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(hint),
         "<span size='9000' color='#AAAAAA'>Default credentials: admin / 1234</span>");
     gtk_widget_set_halign(hint, GTK_ALIGN_CENTER);
 
-    gtk_box_pack_start(GTK_BOX(center_box), welcome,         FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(center_box), welcome_sub,     FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(center_box), sp1,             FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(center_box), ul,              FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(center_box), login_user_entry,FALSE, FALSE, SC(6));
-    gtk_box_pack_start(GTK_BOX(center_box), pl,              FALSE, FALSE, SC(8));
-    gtk_box_pack_start(GTK_BOX(center_box), login_pass_entry,FALSE, FALSE, SC(6));
-    gtk_box_pack_start(GTK_BOX(center_box), lbtn,            FALSE, FALSE, SC(16));
-    gtk_box_pack_start(GTK_BOX(center_box), hint,            FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(center_box), welcome,          FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(center_box), welcome_sub,      FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(center_box), sp1,              FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(center_box), ul,               FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(center_box), login_user_entry, FALSE, FALSE, SC(6));
+    gtk_box_pack_start(GTK_BOX(center_box), pl,               FALSE, FALSE, SC(8));
+    gtk_box_pack_start(GTK_BOX(center_box), login_pass_entry, FALSE, FALSE, SC(6));
+    gtk_box_pack_start(GTK_BOX(center_box), lbtn,             FALSE, FALSE, SC(16));
+    gtk_box_pack_start(GTK_BOX(center_box), hint,             FALSE, FALSE, 0);
 
     gtk_box_pack_start(GTK_BOX(right_panel), center_box, TRUE, TRUE, 0);
 
-    // Pack both panels
     gtk_box_pack_start(GTK_BOX(bg), left_panel,  FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(bg), right_panel, TRUE,  TRUE,  0);
 
     return bg;
-}
+}   
 
 // ==================== PAGE: DASHBOARD ====================
 GtkWidget *create_dashboard() {
