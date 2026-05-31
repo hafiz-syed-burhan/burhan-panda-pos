@@ -31,7 +31,7 @@ void init_database() {
                        "username TEXT UNIQUE, password TEXT, fullname TEXT, email TEXT);";
     sqlite3_exec(db, sql3, 0, 0, &err_msg);
 
-    const char *sql4 = "INSERT OR IGNORE INTO users VALUES('admin','1234','Burhan Ahmed','admin@panda.pk');";
+    const char *sql4 = "INSERT OR IGNORE INTO users VALUES('admin','1234','Burhan Zafar','admin@panda.pk');";
     sqlite3_exec(db, sql4, 0, 0, &err_msg);
 
     const char *sql5 = "CREATE TABLE IF NOT EXISTS coupons("
