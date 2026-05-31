@@ -39,8 +39,8 @@ void init_database() {
     sqlite3_exec(db, sql5, 0, 0, &err_msg);
 
     sqlite3_exec(db, "INSERT OR IGNORE INTO coupons VALUES('PANDA10',10,500,0);", 0, 0, 0);
-    sqlite3_exec(db, "INSERT OR IGNORE INTO coupons VALUES('SAVE20',20,1000,0);",  0, 0, 0);
-    sqlite3_exec(db, "INSERT OR IGNORE INTO coupons VALUES('FLAT50',50,2000,0);",  0, 0, 0);
+    sqlite3_exec(db, "INSERT OR IGNORE INTO coupons VALUES('PANDA20',20,1000,0);",  0, 0, 0);
+    sqlite3_exec(db, "INSERT OR IGNORE INTO coupons VALUES('PANDA50',50,2000,0);",  0, 0, 0);
 
     if (err_msg) { sqlite3_free(err_msg); }
 }
