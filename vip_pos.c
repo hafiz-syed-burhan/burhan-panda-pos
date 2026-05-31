@@ -1184,7 +1184,8 @@ GtkWidget *create_login_page() {
     gtk_style_context_add_class(
         gtk_widget_get_style_context(left_panel), "left-panel");
     g_object_unref(left_css);
-
+    
+//🐼
     GtkWidget *panda_lbl = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(panda_lbl), "<span size='72000'>🐼</span>");
     gtk_widget_set_halign(panda_lbl, GTK_ALIGN_CENTER);
@@ -1836,7 +1837,7 @@ GtkWidget *build_app_ui() {
     gtk_widget_set_halign(coupon_lbl, GTK_ALIGN_START);
     GtkWidget *coupon_row = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SC(4));
     coupon_entry = gtk_entry_new();
-    gtk_entry_set_placeholder_text(GTK_ENTRY(coupon_entry), "PANDA10");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(coupon_entry), "PANDA");
     gtk_widget_set_hexpand(coupon_entry, TRUE);
     GtkWidget *apply_btn = gtk_button_new_with_label("Apply");
     gtk_style_context_add_class(gtk_widget_get_style_context(apply_btn), "btn-success");
@@ -1901,7 +1902,7 @@ int main(int argc, char *argv[]) {
     // 4. Create main window — MAXIMIZED fills laptop/projector screen
     main_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(main_window),
-        "Burhan Panda - Food Management v2.0");
+        "Food Management v2.0");
     gtk_window_maximize(GTK_WINDOW(main_window));  // Always fills screen
     g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
