@@ -1381,7 +1381,7 @@ GtkWidget *create_dashboard() {
 
     // All 9 categories — using static strings (safe, no dangling pointer)
     static const char *cat_labels[] = {
-        "All Items","Burgers","Pizza","Pasta","BBQ","Rice","Drinks","Desserts"
+        "All Items","Burgers","Pizza","Pasta","BBQ","Rice","Drinks","Desserts","Favorite"
     };
     // We pass index and use cat_labels in on_category_click
     // But original code passes pointer — keep same approach with static strings
