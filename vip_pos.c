@@ -1381,7 +1381,7 @@ GtkWidget *create_dashboard() {
 
     // All 9 categories — using static strings (safe, no dangling pointer)
     static const char *cat_labels[] = {
-        "All Items","Burgers","Pizza","Pasta","BBQ","Rice","Drinks","Desserts","Favorites"
+        "All Items","Burgers","Pizza","Pasta","BBQ","Rice","Drinks","Desserts"
     };
     // We pass index and use cat_labels in on_category_click
     // But original code passes pointer — keep same approach with static strings
@@ -1594,7 +1594,7 @@ GtkWidget *create_profile_page() {
         gtk_entry_set_placeholder_text(GTK_ENTRY(e), fields[i].ph);
         if (fields[i].pw) gtk_entry_set_visibility(GTK_ENTRY(e), FALSE);
         gtk_widget_set_hexpand(e, TRUE);
-        if (i == 0) gtk_entry_set_text(GTK_ENTRY(e), "Burhan Ahmed");
+        if (i == 0) gtk_entry_set_text(GTK_ENTRY(e), "Syed Burhan");
         gtk_grid_attach(GTK_GRID(fg), l, 0, i, 1, 1);
         gtk_grid_attach(GTK_GRID(fg), e, 1, i, 1, 1);
     }
@@ -1664,8 +1664,8 @@ GtkWidget *create_settings_page(GtkWidget *win) {
     gtk_label_set_markup(GTK_LABEL(cp_info),
         "<b>Available Coupons:</b>\n"
         "  PANDA10  =  10%% off  (min Rs.500)\n"
-        "  SAVE20   =  20%% off  (min Rs.1000)\n"
-        "  FLAT50   =  50%% off  (min Rs.2000)");
+        "  PANDA20   =  20%% off  (min Rs.1000)\n"
+        "  PANDA50   =  50%% off  (min Rs.2000)");
     gtk_widget_set_halign(cp_info, GTK_ALIGN_START);
 
     GtkWidget *sep2 = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
