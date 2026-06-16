@@ -163,7 +163,7 @@ void compute_ui_scale() {
 static inline int SC(int v) { return (int)(v * UI_SCALE); }
 
 // ==================== DARK MODE STATE ====================
-static gboolean dark_mode_on = FALSE;
+static gboolean dark_mode_on = TRUE;
 
 // ==================== CSS - PROPERLY FIXED ====================
 // GTK3 CSS rules:
@@ -1896,7 +1896,7 @@ int main(int argc, char *argv[]) {
     init_database();
 
     // 3. Load CSS (light mode default)
-    dark_mode_on = FALSE;
+    dark_mode_on = TRUE;
     load_css();
 
     // 4. Create main window — MAXIMIZED fills laptop/projector screen
