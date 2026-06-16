@@ -764,7 +764,7 @@ void generate_receipt(const char *order_id, int subtotal, int discount, int fina
     if (discount > 0) fprintf(f, "%-25s %14d\n", "Discount:", -discount);
     fprintf(f, "%-25s %14d\n", "TOTAL PAYABLE:", final_total);
     fprintf(f, "========================================\n");
-    fprintf(f, "   Thank you for choosing Burhan Panda!\n");
+    fprintf(f, "   Thank you for choosing PANDA POS!\n");
     fprintf(f, "========================================\n");
     fclose(f);
 }
@@ -1192,7 +1192,7 @@ GtkWidget *create_login_page() {
 
     GtkWidget *brand = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(brand),
-        "<span color='#FFFFFF' size='28000' weight='bold'>Burhan Panda</span>");
+        "<span color='#FFFFFF' size='28000' weight='bold'>PANDA POS</span>");
     gtk_widget_set_halign(brand, GTK_ALIGN_CENTER);
 
     GtkWidget *tagline = gtk_label_new(NULL);
@@ -1672,7 +1672,7 @@ GtkWidget *create_settings_page(GtkWidget *win) {
 
     GtkWidget *about = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(about),
-        "<b>Burhan Panda v2.0</b>\n"
+        "<b>PANDA POS v2.0</b>\n"
         "<small>GTK3 + SQLite3  |  C Language\n"
         "Auto-responsive: Laptop and Projector\n"
         "Login | Cart | Coupons | Analytics | Favorites\n"
@@ -1698,7 +1698,7 @@ GtkWidget *build_app_ui() {
     GtkWidget *header = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SC(12));
     gtk_style_context_add_class(gtk_widget_get_style_context(header), "top-header");
 
-    GtkWidget *logo = gtk_label_new("Burhan Panda Pos  🐼");
+    GtkWidget *logo = gtk_label_new("PANDA POS  🐼");
     gtk_style_context_add_class(gtk_widget_get_style_context(logo), "logo-text");
     gtk_widget_set_halign(logo, GTK_ALIGN_START);
 
