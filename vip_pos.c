@@ -1,5 +1,5 @@
 // ============================================================
-//   BURHAN PANDA FOOD MANAGEMENT SYSTEM  v2.0 - 
+//   PANDA POS FOOD MANAGEMENT SYSTEM  v2.0 - 
 // ============================================================
 #include <gtk/gtk.h>
 #include <stdio.h>
